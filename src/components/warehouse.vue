@@ -6,9 +6,11 @@
         <div class="line-one"></div>
         <div class="line-two"></div>
       </div>
-      <div class="spec-block-one">
+      <div class="spec-block-two flex-box">
         <img src="../assets/warehouse_pic.png" />
         <p class="desc">各发货仓实时进度</p>
+        <div class="line-one"></div>
+        <div class="line-two"></div>
       </div>
     </div>
     <div class="center-area">
@@ -87,14 +89,14 @@ export default {
   height: 100%;
   .left-area {
     .spec-block-one {
-      margin-bottom: 60px;
+      margin-bottom: 30px;
       .line-one {
         position: absolute;
         top: 24px;
         left: 96px;
-        width: 285px;
+        width: 240px;
         height: 1px;
-        background-color: #4e7eff;
+        background-color: rgba(78, 126, 255, 0.80);
         &::before {
           content: '';
           display: inline-block;
@@ -122,7 +124,7 @@ export default {
         left: 0;
         width: 75px;
         height: 1px;
-        background-color: #4e7eff;
+        background-color: rgba(78, 126, 255, 0.80);
         &::after {
           content: '';
           display: inline-block;
@@ -131,9 +133,71 @@ export default {
           top: -8px;
           width: 26px;
           height: 1px;
-          background-color: #4e7eff;
+          background-color: rgba(78, 126, 255, 0.80);
           transform: rotateZ(141deg);
         }
+      }
+    }
+    .spec-block-two {
+      align-items: center;
+      padding-left: 100px;
+      .desc {
+        margin-left: 6px;
+        position: relative;
+        top: -6px;
+      }
+      img {
+        width: 140px;
+      }
+      .line-one {
+        position: absolute;
+        top: 52px;
+        left: 238px;
+        width: 125px;
+        height: 1px;
+        background-color: rgba(78, 126, 255, 0.80);
+        &::before{
+          content: '';
+          display: inline-block;
+          position: absolute;
+          top: -2px;
+          left: 0;
+          width: 5px;
+          height: 5px;
+          background-color: #ff4e00
+        }
+        &::after {
+          content: '';
+          display: inline-block;
+          position: absolute;
+          right: -100px;
+          top: 72px;
+          width: 152px;
+          height: 1px;
+          background-color: rgba(78, 126, 255, 0.80);
+          transform: rotateZ(71deg);
+        }
+      }
+      .line-two {
+        position: absolute;
+        top: 196px;
+        left: 411px;
+        width: 100px;
+        height: 1px;
+        background-color: rgba(78, 126, 255, 0.80);
+        &::after {
+          content: '';
+          display: inline-block;
+          position: absolute;
+          top: -2px;
+          width: 5px;
+          height: 5px;
+          background-color: #ff4e00
+        }
+        &::after {
+          right: 0;
+        }
+
       }
     }
     .spec-block-one,.spec-block-two {
@@ -146,7 +210,6 @@ export default {
       font-size: 14px;
       color: #fff;
       font-weight: 700;
-      letter-spacing: 2px;
     }
   }
   .center-area {
@@ -168,7 +231,7 @@ export default {
         position: relative;
         width: 100%;
         height: 1px;
-        background-color: #4e7eff;
+        background-color: rgba(78, 126, 255, 0.80);
         &::before,&::after {
           content: '';
           display: inline-block;
