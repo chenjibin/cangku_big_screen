@@ -16,15 +16,24 @@
         <div class="list-block one">
           <p class="title">发货英雄榜</p>
           <div class="line"></div>
-          <ul>
-
+          <ul class="list">
+            <li v-for="item,index in sendOrder" class="item flex-box" :class="{good: index <= 2}">
+              <p class="order">{{index + 1}}</p>
+              <p class="flex-one">{{item.name}}</p>
+              <p class="flex-one">{{item.num}}</p>
+            </li>
           </ul>
-
         </div>
         <div class="list-block two">
           <p class="title">找货英雄榜</p>
           <div class="line"></div>
-
+          <ul class="list">
+            <li v-for="item,index in sendOrder" class="item flex-box" :class="{good: index <= 2}">
+              <p class="order">{{index + 1}}</p>
+              <p class="flex-one">{{item.name}}</p>
+              <p class="flex-one">{{item.num}}</p>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -38,7 +47,7 @@
         <div class="each-block flex-one">
           <p class="t-number">50000</p>
           <div class="num-fill-component">
-
+            <div class="progress"></div>
           </div>
           <div class="warehouse-name">
             <span>8号仓</span>
@@ -81,38 +90,239 @@
         <div class="line-two"></div>
       </div>
       <div class="main-block">
-        <div class="table-line-block">
-
+        <div class="table-line-block each-block">
+          <p class="title">完成发货速率(1小时)</p>
+          <div class="line"></div>
+          <div class="line-table">
+            <vue-echarts :options="polar" :auto-resize="true"></vue-echarts>
+          </div>
         </div>
-        <div class="piv-order-block">
-
+        <div class="piv-order-block each-block">
+          <p class="title">顾客发货地域分布(省份)</p>
+          <div class="line"></div>
+          <div class="area-block">
+            <div class="each-area">
+              <div class="desc flex-box">
+                <span class="name">江苏</span>
+                <span class="num">10.14%</span>
+              </div>
+              <div class="line-progress-wrapper">
+                <div class="line-new"></div>
+                <div class="num-line"></div>
+              </div>
+            </div>
+            <div class="each-area">
+              <div class="desc flex-box">
+                <span class="name">江苏</span>
+                <span class="num">10.14%</span>
+              </div>
+              <div class="line-progress-wrapper">
+                <div class="line-new"></div>
+                <div class="num-line"></div>
+              </div>
+            </div>
+            <div class="each-area">
+              <div class="desc flex-box">
+                <span class="name">江苏</span>
+                <span class="num">10.14%</span>
+              </div>
+              <div class="line-progress-wrapper">
+                <div class="line-new"></div>
+                <div class="num-line"></div>
+              </div>
+            </div>
+            <div class="each-area">
+              <div class="desc flex-box">
+                <span class="name">江苏</span>
+                <span class="num">10.14%</span>
+              </div>
+              <div class="line-progress-wrapper">
+                <div class="line-new"></div>
+                <div class="num-line"></div>
+              </div>
+            </div>
+            <div class="each-area">
+              <div class="desc flex-box">
+                <span class="name">江苏</span>
+                <span class="num">10.14%</span>
+              </div>
+              <div class="line-progress-wrapper">
+                <div class="line-new"></div>
+                <div class="num-line"></div>
+              </div>
+            </div>
+          </div>
         </div>
-
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import VueEcharts from '../comment/vue-echarts.vue'
+  import 'echarts'
+
 export default {
   name: 'warehouse',
   data () {
     return {
-      updateTime: '2017-11-11 22:00:00'
+      updateTime: '2017-11-11 22:00:00',
+      testData: [
+        {name: '2016/12/18 6:38:08', value: ['2016/12/18 6:38:08', 80]},
+        {name: '2016/12/18 16:18:18', value: ['2016/12/18 16:18:18', 60]},
+        {name: '2016/12/18 19:18:18', value: ['2016/12/18 19:18:18', 90]}
+      ],
+      anchor: [
+        {name: '2016/12/18 00:00:00', value: ['2016/12/18 00:00:00', 0]},
+        {name: '2016/12/19 00:00:00', value: ['2016/12/19 00:00:00', 0]}
+      ],
+      sendOrder: [
+        {
+          name: '徐青',
+          num: '100,000'
+        },
+        {
+          name: '徐青',
+          num: '100,000'
+        },
+        {
+          name: '徐青',
+          num: '100,000'
+        },
+        {
+          name: '徐青',
+          num: '100,000'
+        },
+        {
+          name: '徐青',
+          num: '100,000'
+        },
+        {
+          name: '徐青',
+          num: '100,000'
+        },
+        {
+          name: '徐青',
+          num: '100,000'
+        },
+        {
+          name: '徐青',
+          num: '100,000'
+        },
+        {
+          name: '徐青',
+          num: '100,000'
+        },
+        {
+          name: '徐青',
+          num: '100,000'
+        }
+      ],
+      polar: {
+        tooltip: {
+          trigger: 'axis'
+        },
+        grid: {
+          left: '0',
+          top: '6',
+          width: '400px',
+          height: '230px',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
+        xAxis: {
+          type: 'time',
+          boundaryGap: false,
+          axisLine: {
+            lineStyle: {
+              color: '#4e7eff'
+            }
+          },
+          splitLine: {
+            lineStyle: {
+              color: 'rgba(78, 126, 255, 0.5)'
+            }
+          },
+          nameTextStyle: {
+            color: 'rgb(255,255,255)'
+          }
+        },
+        yAxis: {
+          type: 'value',
+          nameTextStyle: {
+            color: 'rgb(255,255,255)'
+          },
+          axisLine: {
+            show: false,
+            lineStyle: {
+              color: '#4e7eff'
+            }
+          },
+          splitLine: {
+            lineStyle: {
+              color: 'rgba(78, 126, 255, 0.5)'
+            }
+          }
+        },
+        series: [
+          {
+            name: '完成发货速率',
+            type: 'line',
+            stack: '总量',
+            data: this.testData,
+            lineStyle: {
+              normal: {
+                color: '#ffd702'
+              }
+            }
+          },
+          {
+            name: '.anchor',
+            type: 'line',
+            showSymbol: false,
+            data: this.anchor,
+            itemStyle: {normal: {opacity: 0}},
+            lineStyle: {normal: {opacity: 0}}
+          }
+        ]
+      }
     }
+  },
+  mounted() {
+
+  },
+  methods: {
+
+  },
+  components: {
+    VueEcharts
   }
 }
 </script>
 
 <style scoped lang="less">
 .num-fill-component {
+  position: relative;
   width: 100px;
   margin: 0 auto;
   height: 500px;
+  overflow: hidden;
   border:1px solid #0bb79e;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  background-color: rgba(10, 2, 47, 0.5);;
+  background-color: rgba(10, 2, 47, 0.5);
+  .progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height:300px;
+    background-color: rgba(11, 183, 158, 0.8);
+  }
 }
 .warehouse {
   padding-top: 127px;
@@ -125,7 +335,7 @@ export default {
         position: absolute;
         top: 24px;
         left: 96px;
-        width: 240px;
+        width: 264px;
         height: 1px;
         background-color: rgba(78, 126, 255, 0.80);
         &::before {
@@ -179,13 +389,13 @@ export default {
         top: -6px;
       }
       img {
-        width: 140px;
+        width: 170px;
       }
       .line-one {
         position: absolute;
-        top: 52px;
-        left: 238px;
-        width: 125px;
+        top: 64px;
+        left: 270px;
+        width: 150px;
         height: 1px;
         background-color: rgba(78, 126, 255, 0.80);
         &::before{
@@ -202,18 +412,18 @@ export default {
           content: '';
           display: inline-block;
           position: absolute;
-          right: -89px;
-          top: 64px;
-          width: 134px;
+          right: -109px;
+          top: 57px;
+          width: 140px;
           height: 1px;
           background-color: rgba(78, 126, 255, 0.8);
-          transform: rotateZ(71deg);
+          transform: rotateZ(55deg);
         }
       }
       .line-two {
         position: absolute;
         top: 179px;
-        left: 406px;
+        left: 500px;
         width: 100px;
         height: 1px;
         background-color: rgba(78, 126, 255, 0.80);
@@ -239,7 +449,7 @@ export default {
       padding-left: 100px;
     }
     .time, .desc {
-      font-size: 14px;
+      font-size: 16px;
       color: #fff;
       font-weight: 700;
     }
@@ -247,17 +457,17 @@ export default {
       position: relative;
       .list-block {
         position: absolute;
-        padding: 10px;
-        width: 180px;
-        height: 416px;
+        padding: 16px;
+        width: 200px;
+        height: 464px;
         background-image: url('../assets/find-order.png');
         background-size: contain;
         background-repeat: no-repeat;
         &.one {
-          left: 60px;
+          left: 100px;
         }
         &.two {
-          left: 260px;
+          left: 320px;
           top:50px;;
         }
         .title {
@@ -265,6 +475,28 @@ export default {
           color: #ff4e00;
           margin-bottom: 10px;;
 
+        }
+        .list {
+          margin-top: 20px;
+          color: #fff;
+          .item {
+            padding: 6px 0;
+            align-items: center;
+            border-bottom: 1px solid #ff4e00;
+            font-size: 16px;
+            &.good {
+              border-bottom: 1px solid #ffd702;
+              .order {
+                color: #ffd702;
+              }
+            }
+            .order {
+              width: 30px;
+              flex: 0 0 30px;
+              color: #ff4e00;
+            }
+
+          }
         }
         .line {
           position: relative;
@@ -364,7 +596,7 @@ export default {
       margin-left: 50px;
       margin-bottom: 30px;
       align-items: baseline;
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 700;
       color: #fff;
       img {
@@ -377,7 +609,7 @@ export default {
         position: absolute;
         top: 71px;
         left: -13px;
-        width: 258px;
+        width: 280px;
         height: 1px;
         background-color: rgba(78, 126, 255, 0.8);
         &::before {
@@ -404,7 +636,7 @@ export default {
       .line-two {
         position: absolute;
         top: 90px;
-        left: 266px;
+        left: 290px;
         width: 400px;
         height: 1px;
         background-color: rgba(78, 126, 255, 0.80);
@@ -423,21 +655,102 @@ export default {
     }
     .main-block {
       margin-left: 40px;
+      .each-block {
+        padding: 16px;
+        width: 440px;
+        height: 318px;
+        background-image: url('../assets/right-two.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        .title {
+          font-weight: 700;
+          color: #fff;
+          margin-bottom: 10px;
+
+        }
+        .line {
+          position: relative;
+          width: 158px;
+          height: 1px;
+          background-color: rgba(78, 126, 255, 0.80);
+          &::before,&::after {
+            content: '';
+            display: inline-block;
+            position: absolute;
+            top: -2px;
+            width: 5px;
+            height: 5px;
+            background-color: #ff4e00;
+          }
+          &::before {
+            left: 0;
+          }
+          &::after {
+            right: 0;
+          }
+        }
+      }
       .table-line-block {
         margin-bottom: 30px;
-        width: 400px;
-        height: 290px;
-        background-image: url('../assets/right-two.png');
-        background-size: contain;
-        background-repeat: no-repeat;
+        .line-table {
+          margin-top: 20px;
+          width: 100%;
+          height:250px;
+        }
+
       }
       .piv-order-block {
-        width: 400px;
-        height: 290px;
-        background-image: url('../assets/right-two.png');
-        background-size: contain;
-        background-repeat: no-repeat;
+        .line {
+          width: 180px;
+        }
+        .area-block {
+          margin-top: 20px;
+          .each-area {
+            padding: 10px 0 0 0;
+          }
+          .desc {
+            margin-bottom: 6px;
+            justify-content: space-between;
+            color: #fff;
+            .name {
 
+            }
+            .num {
+
+            }
+          }
+          .line-progress-wrapper {
+            position: relative;
+            .line-new {
+              width: 100%;
+              height: 1px;
+              background-color: rgba(255, 78, 0, 0.6);
+              &::before, &::after {
+                content: '';
+                display: inline-block;
+                top: -1px;
+                position: absolute;
+                width: 3px;
+                height: 3px;
+                background-color: #ff4e00;
+              }
+              &::before {
+                left: 0;
+              }
+              &::after {
+                right: 0;
+              }
+            }
+            .num-line {
+              position: absolute;
+              top:-1px;
+              left: 6px;
+              height: 3px;
+              width: calc(100% - 3px);
+              background-color: #ff4e00;
+            }
+          }
+        }
       }
     }
 
