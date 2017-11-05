@@ -12,6 +12,21 @@
         <div class="line-one"></div>
         <div class="line-two"></div>
       </div>
+      <div class="main-block">
+        <div class="list-block one">
+          <p class="title">发货英雄榜</p>
+          <div class="line"></div>
+          <ul>
+
+          </ul>
+
+        </div>
+        <div class="list-block two">
+          <p class="title">找货英雄榜</p>
+          <div class="line"></div>
+
+        </div>
+      </div>
     </div>
     <div class="center-area">
       <div class="number-block">
@@ -58,7 +73,23 @@
         </div>
       </div>
     </div>
-    <div class="flex-one right-area" style="background-color: #666;"></div>
+    <div class="flex-one right-area">
+      <div class="spec-block flex-box">
+        <img src="../assets/warehouse_logo.png" />
+        <p class="title">天马云仓实时发货数据</p>
+        <div class="line-one"></div>
+        <div class="line-two"></div>
+      </div>
+      <div class="main-block">
+        <div class="table-line-block">
+
+        </div>
+        <div class="piv-order-block">
+
+        </div>
+
+      </div>
+    </div>
   </div>
 </template>
 
@@ -77,11 +108,11 @@ export default {
 .num-fill-component {
   width: 100px;
   margin: 0 auto;
-  height: 400px;
+  height: 500px;
   border:1px solid #0bb79e;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  background-color: rgba(13, 3, 66,0.5);
+  background-color: rgba(10, 2, 47, 0.5);;
 }
 .warehouse {
   padding-top: 127px;
@@ -141,6 +172,7 @@ export default {
     .spec-block-two {
       align-items: center;
       padding-left: 100px;
+      margin-bottom: 80px;
       .desc {
         margin-left: 6px;
         position: relative;
@@ -170,18 +202,18 @@ export default {
           content: '';
           display: inline-block;
           position: absolute;
-          right: -100px;
-          top: 72px;
-          width: 152px;
+          right: -89px;
+          top: 64px;
+          width: 134px;
           height: 1px;
-          background-color: rgba(78, 126, 255, 0.80);
+          background-color: rgba(78, 126, 255, 0.8);
           transform: rotateZ(71deg);
         }
       }
       .line-two {
         position: absolute;
-        top: 196px;
-        left: 411px;
+        top: 179px;
+        left: 406px;
         width: 100px;
         height: 1px;
         background-color: rgba(78, 126, 255, 0.80);
@@ -210,6 +242,52 @@ export default {
       font-size: 14px;
       color: #fff;
       font-weight: 700;
+    }
+    .main-block {
+      position: relative;
+      .list-block {
+        position: absolute;
+        padding: 10px;
+        width: 180px;
+        height: 416px;
+        background-image: url('../assets/find-order.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        &.one {
+          left: 60px;
+        }
+        &.two {
+          left: 260px;
+          top:50px;;
+        }
+        .title {
+          font-weight: 700;
+          color: #ff4e00;
+          margin-bottom: 10px;;
+
+        }
+        .line {
+          position: relative;
+          width: 100%;
+          height: 1px;
+          background-color: rgba(78, 126, 255, 0.80);
+          &::before,&::after {
+            content: '';
+            display: inline-block;
+            position: absolute;
+            top: -2px;
+            width: 5px;
+            height: 5px;
+            background-color: #ff4e00
+          }
+          &::before {
+            left: 0;
+          }
+          &::after {
+            right: 0;
+          }
+        }
+      }
     }
   }
   .center-area {
@@ -255,7 +333,7 @@ export default {
       }
     }
     .all-show-block {
-      margin-top: 60px;
+      margin-top: 50px;
       text-align: center;
       align-items: flex-end;
       .each-block {
@@ -279,6 +357,90 @@ export default {
         }
       }
     }
+  }
+  .right-area {
+    .spec-block {
+      position: relative;
+      margin-left: 50px;
+      margin-bottom: 30px;
+      align-items: baseline;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      img {
+        width: 80px;
+      }
+      .title {
+        margin-left: 10px;
+      }
+      .line-one {
+        position: absolute;
+        top: 71px;
+        left: -13px;
+        width: 258px;
+        height: 1px;
+        background-color: rgba(78, 126, 255, 0.8);
+        &::before {
+          content: '';
+          display: inline-block;
+          position: absolute;
+          left:0;
+          top: 0px;
+          width: 114px;
+          height: 1px;
+          background-color: #ff4e00
+        }
+        &::after {
+          content: '';
+          display: inline-block;
+          position: absolute;
+          top: -2px;
+          left: 0;
+          width: 5px;
+          height: 5px;
+          background-color: #ff4e00
+        }
+      }
+      .line-two {
+        position: absolute;
+        top: 90px;
+        left: 266px;
+        width: 400px;
+        height: 1px;
+        background-color: rgba(78, 126, 255, 0.80);
+        &::after {
+          content: '';
+          display: inline-block;
+          position: absolute;
+          left: -26px;
+          top: -10px;
+          width: 30px;
+          height: 1px;
+          background-color: rgba(78, 126, 255, 0.8);
+          transform: rotateZ(40deg);
+        }
+      }
+    }
+    .main-block {
+      margin-left: 40px;
+      .table-line-block {
+        margin-bottom: 30px;
+        width: 400px;
+        height: 290px;
+        background-image: url('../assets/right-two.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+      .piv-order-block {
+        width: 400px;
+        height: 290px;
+        background-image: url('../assets/right-two.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+
+      }
+    }
+
   }
 }
 

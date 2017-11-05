@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" style="">
     <div class="logo-wrapper">
       <img src="./assets/tm_logo.png" />
     </div>
@@ -30,8 +30,8 @@ p, ul {
 body,html {
   margin: 0;
   padding: 0;
-  width: 100%;
-  height: 100%;
+  width: 1920px;
+  height: 1080px;
   overflow: hidden;
   user-select: none;
 }
@@ -55,7 +55,6 @@ body,html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  background-image: url('./assets/bg-img.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
