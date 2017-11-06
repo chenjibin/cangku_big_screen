@@ -28,7 +28,7 @@
           <p class="title">找货英雄榜</p>
           <div class="line"></div>
           <ul class="list">
-            <li v-for="item,index in sendOrder" class="item flex-box" :class="{good: index <= 2}">
+            <li v-for="item,index in findOrder" class="item flex-box" :class="{good: index <= 2}">
               <p class="order">{{index + 1}}</p>
               <p class="flex-one">{{item.name}}</p>
               <p class="flex-one">{{item.num}}</p>
@@ -39,14 +39,14 @@
     </div>
     <div class="center-area">
       <div class="number-block">
-        <vue-countup class="number" :start="0" :end="150000000"></vue-countup>
+        <vue-countup class="number" :start="saleData.start" :end="saleData.end"></vue-countup>
         <div class="line"></div>
         <p class="desc">今日出货总量</p>
       </div>
       <div class="all-show-block flex-box">
         <div class="each-block flex-one" v-for="item in warehouseData">
           <p class="t-number">{{item.target}}</p>
-          <fs-fill :target="item.target" :now="item.now" :height="500"></fs-fill>
+          <fs-fill :target="item.target" :now="item.now" :height="560"></fs-fill>
           <div class="warehouse-name">
             <span>{{item.name}}</span>
           </div>
@@ -55,7 +55,7 @@
     </div>
     <div class="flex-one right-area">
       <div class="spec-block flex-box">
-        <img src="../assets/warehouse_logo.png" />
+        <img src="../assets/warehouse_logo_new.png" />
         <p class="title">天马云仓实时发货数据</p>
         <div class="line-one"></div>
         <div class="line-two"></div>
@@ -72,55 +72,12 @@
           <p class="title">顾客发货地域分布(省份)</p>
           <div class="line"></div>
           <div class="area-block">
-            <div class="each-area">
+            <div class="each-area" v-for="item,index in provinceData">
               <div class="desc flex-box">
-                <span class="name">江苏</span>
-                <span class="num">10.14%</span>
+                <span class="name">{{item.name}}</span>
+                <span class="num">{{item.percent + '%'}}</span>
               </div>
-              <div class="line-progress-wrapper">
-                <div class="line-new"></div>
-                <div class="num-line"></div>
-              </div>
-            </div>
-            <div class="each-area">
-              <div class="desc flex-box">
-                <span class="name">江苏</span>
-                <span class="num">10.14%</span>
-              </div>
-              <div class="line-progress-wrapper">
-                <div class="line-new"></div>
-                <div class="num-line"></div>
-              </div>
-            </div>
-            <div class="each-area">
-              <div class="desc flex-box">
-                <span class="name">江苏</span>
-                <span class="num">10.14%</span>
-              </div>
-              <div class="line-progress-wrapper">
-                <div class="line-new"></div>
-                <div class="num-line"></div>
-              </div>
-            </div>
-            <div class="each-area">
-              <div class="desc flex-box">
-                <span class="name">江苏</span>
-                <span class="num">10.14%</span>
-              </div>
-              <div class="line-progress-wrapper">
-                <div class="line-new"></div>
-                <div class="num-line"></div>
-              </div>
-            </div>
-            <div class="each-area">
-              <div class="desc flex-box">
-                <span class="name">江苏</span>
-                <span class="num">10.14%</span>
-              </div>
-              <div class="line-progress-wrapper">
-                <div class="line-new"></div>
-                <div class="num-line"></div>
-              </div>
+              <fs-lineprogress :percent="index === 0 ? 100 : item.percent/provinceData[0].percent*100"></fs-lineprogress>
             </div>
           </div>
         </div>
@@ -130,36 +87,68 @@
 </template>
 
 <script>
-  import 'echarts'
+  import * as moment from 'moment'
   import VueEcharts from 'vue-echarts'
   import VueCountup from '@/comment/vue-countup'
   import FsFill from '@/comment/fs-fill'
+  import FsLineprogress from '@/comment/fs-lineprogress'
 
 export default {
   name: 'warehouse',
   data () {
     return {
-      updateTime: '2017-11-11 22:00:00',
+      updateTime: '0000-00-00 00:00:00',
+      saleData: {
+        start: 0,
+        end: 0
+      },
+      provinceData: [
+        {
+          name: '江苏省',
+          percent: 10.14
+        },
+        {
+          name: '浙江省',
+          percent: 8.28
+        },
+        {
+          name: '广东省',
+          percent: 8.28
+        },
+        {
+          name: '北京市',
+          percent: 5.38
+        },
+        {
+          name: '山东省',
+          percent: 2.09
+        }
+      ],
       warehouseData: [
+        {
+          name: '7号仓',
+          target: 50000,
+          now: 0
+        },
         {
           name: '8号仓',
           target: 50000,
-          now: 30000
+          now: 0
         },
         {
           name: '9号仓',
           target: 50000,
-          now: 30000
+          now: 0
         },
         {
           name: '10号仓',
           target: 50000,
-          now: 30000
+          now: 0
         },
         {
           name: '实体专卖',
           target: 50000,
-          now: 30000
+          now: 0
         }
       ],
       sendOrder: [
@@ -204,6 +193,49 @@ export default {
           num: '100,000'
         }
       ],
+      findOrder: [
+        {
+          name: '徐青',
+          num: '100,000'
+        },
+        {
+          name: '徐青',
+          num: '100,000'
+        },
+        {
+          name: '徐青',
+          num: '100,000'
+        },
+        {
+          name: '徐青',
+          num: '100,000'
+        },
+        {
+          name: '徐青',
+          num: '100,000'
+        },
+        {
+          name: '徐青',
+          num: '100,000'
+        },
+        {
+          name: '徐青',
+          num: '100,000'
+        },
+        {
+          name: '徐青',
+          num: '100,000'
+        },
+        {
+          name: '徐青',
+          num: '100,000'
+        },
+        {
+          name: '徐青',
+          num: '100,000'
+        }
+      ],
+      sendRadio: [2, 7, 10, 18, 14, 18, 20, 30, 10, 18, 33, 24, 20, 19, 39],
       polar: {
         tooltip: {
           trigger: 'axis'
@@ -265,40 +297,57 @@ export default {
                 color: '#ffd702'
               }
             },
-            data: [2, 7, 10, 18, 14, 18, 20, 30, 10, 18, 33, 24, 20, 19, 39]
+            data: []
           }
         ]
       }
     }
   },
+  created() {
+    this.polar.series[0].data = this.sendRadio
+  },
   mounted() {
-
+    setInterval(() => {
+      let nowTime = moment().format('YYYY-MM-DD hh:mm:ss')
+      this.warehouseData.forEach((item) => {
+        item.now += 100
+      })
+      this.saleData.end += 1000
+      this.updateTime = nowTime
+    }, 1000)
   },
   methods: {
-
+    getWarehouseData() {
+      this.$http.get('').then((res) => {
+        if (res) {
+        }
+      })
+    }
   },
   components: {
     VueEcharts,
     VueCountup,
-    FsFill
+    FsFill,
+    FsLineprogress
   }
 }
 </script>
 
-<style scoped lang="less">
+<style  lang="less">
 
 .warehouse {
   padding-top: 127px;
   width: 100%;
   height: 100%;
+  background-image: url(../assets/bg-img.jpg);
   .left-area {
     .spec-block-one {
-      margin-bottom: 30px;
+      margin-bottom: 65px;
       .line-one {
         position: absolute;
-        top: 24px;
+        top: 36px;
         left: 96px;
-        width: 264px;
+        width: 330px;
         height: 1px;
         background-color: rgba(78, 126, 255, 0.80);
         &::before {
@@ -324,7 +373,7 @@ export default {
       }
       .line-two {
         position: absolute;
-        top: 40px;
+        top: 52px;
         left: 0;
         width: 75px;
         height: 1px;
@@ -349,7 +398,7 @@ export default {
       .desc {
         margin-left: 6px;
         position: relative;
-        top: -6px;
+        top: -15px;
       }
       img {
         width: 170px;
@@ -412,7 +461,7 @@ export default {
       padding-left: 100px;
     }
     .time, .desc {
-      font-size: 16px;
+      font-size: 20px;
       color: #fff;
       font-weight: 700;
     }
@@ -434,6 +483,7 @@ export default {
           top:50px;;
         }
         .title {
+          font-size: 20px;
           font-weight: 700;
           color: #ff4e00;
           margin-bottom: 10px;;
@@ -494,7 +544,7 @@ export default {
       width: 85%;
       .number {
         color: #ff4e00;
-        font-size: 70px;
+        font-size: 90px;
         font-family: initial;
         font-weight: 700;
         letter-spacing: 4px;
@@ -523,7 +573,7 @@ export default {
       }
       .desc {
         color: #ff4e00;
-        font-size: 16px;
+        font-size: 24px;
         font-weight: 700;
       }
     }
@@ -556,21 +606,27 @@ export default {
   .right-area {
     .spec-block {
       position: relative;
-      margin-left: 50px;
+      top: -20px;
+      margin-left: 70px;
       margin-bottom: 30px;
       align-items: baseline;
-      font-size: 16px;
+      font-size: 24px;
       font-weight: 700;
       color: #fff;
       img {
-        width: 80px;
+        width: 120px;
+        position: relative;
+        right: -290px;
+        top: 40px;
       }
       .title {
+        position: relative;
+        left: -128px;
         margin-left: 10px;
       }
       .line-one {
         position: absolute;
-        top: 71px;
+        top: 135px;
         left: -13px;
         width: 280px;
         height: 1px;
@@ -598,7 +654,7 @@ export default {
       }
       .line-two {
         position: absolute;
-        top: 90px;
+        top: 155px;
         left: 290px;
         width: 400px;
         height: 1px;
@@ -617,7 +673,7 @@ export default {
       }
     }
     .main-block {
-      margin-left: 40px;
+      margin-left: 60px;
       .each-block {
         padding: 16px;
         width: 440px;
@@ -626,6 +682,7 @@ export default {
         background-size: contain;
         background-repeat: no-repeat;
         .title {
+          font-size: 20px;
           font-weight: 700;
           color: #fff;
           margin-bottom: 10px;
@@ -633,7 +690,7 @@ export default {
         }
         .line {
           position: relative;
-          width: 158px;
+          width: 200px;
           height: 1px;
           background-color: rgba(78, 126, 255, 0.80);
           &::before,&::after {
@@ -664,10 +721,10 @@ export default {
       }
       .piv-order-block {
         .line {
-          width: 180px;
+          width: 230px;
         }
         .area-block {
-          margin-top: 20px;
+          margin-top: 30px;
           .each-area {
             padding: 10px 0 0 0;
           }
@@ -680,37 +737,6 @@ export default {
             }
             .num {
 
-            }
-          }
-          .line-progress-wrapper {
-            position: relative;
-            .line-new {
-              width: 100%;
-              height: 1px;
-              background-color: rgba(255, 78, 0, 0.6);
-              &::before, &::after {
-                content: '';
-                display: inline-block;
-                top: -1px;
-                position: absolute;
-                width: 3px;
-                height: 3px;
-                background-color: #ff4e00;
-              }
-              &::before {
-                left: 0;
-              }
-              &::after {
-                right: 0;
-              }
-            }
-            .num-line {
-              position: absolute;
-              top:-1px;
-              left: 6px;
-              height: 3px;
-              width: calc(100% - 3px);
-              background-color: #ff4e00;
             }
           }
         }

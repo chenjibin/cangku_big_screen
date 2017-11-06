@@ -61,6 +61,9 @@ body,html {
 }
 .logo-wrapper {
   padding-top: 40px;
+  position: absolute;
+  width: 100%;
+  z-index: 100;
   text-align: center;
   img {
     width: 260px;

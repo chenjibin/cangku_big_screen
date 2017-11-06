@@ -1,8 +1,12 @@
 <template>
   <div class="main flex-box flex-center">
-    <div class="btn-wrapper">
-      <div class="btn" @click="_toTargetWar('warehouse')">仓库战区</div>
-      <div class="btn" @click="_toTargetWar('shop')">店铺战区</div>
+    <div class="btn-wrapper flex-box">
+      <div class="btn" @click="_toTargetWar('warehouse')">
+        <img src="../assets/warehouse_btn.png" />
+      </div>
+      <div class="btn" @click="_toTargetWar('shop')">
+        <img src="../assets/shop_btn.png" />
+      </div>
     </div>
   </div>
 </template>
@@ -28,7 +32,11 @@ export default {
   width: 100%;
   height: 100%;
   .btn-wrapper {
+    width: 60%;
+    justify-content: space-around;
     .btn {
+      font-size: 0;
+      cursor: pointer;
       color: #fff;
     }
   }
