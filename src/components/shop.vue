@@ -14,7 +14,7 @@
       </div>
       <div class="main-block">
         <div class="list-block one">
-          <p class="title">发货英雄榜</p>
+          <p class="title">今日实时各店铺支付金额排行榜</p>
           <div class="line"></div>
           <ul class="list">
             <li v-for="item,index in sendOrder" class="item flex-box" :class="{good: index <= 2}">
@@ -323,7 +323,7 @@
         .desc {
           margin-left: 6px;
           position: relative;
-          top: -6px;
+          top: -46px;
         }
         img {
           width: 400px;
@@ -393,9 +393,9 @@
         .list-block {
           position: absolute;
           padding: 16px;
-          width: 200px;
-          height: 464px;
-          background-image: url('../assets/find-order.png');
+          width: 423px;
+          height: 613px;
+          background-image: url(../assets/shop-order.png);
           background-size: contain;
           background-repeat: no-repeat;
           &.one {
@@ -408,8 +408,8 @@
           .title {
             font-weight: 700;
             color: #ff4e00;
-            margin-bottom: 10px;;
-
+            margin-bottom: 10px;
+            font-size: 20px;
           }
           .list {
             margin-top: 20px;
