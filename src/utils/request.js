@@ -36,6 +36,14 @@ export default {
             timeout: 30000
         })
     },
+    getextra(url, params) {
+      return axios({
+        method: 'get',
+        url: url,
+        params,
+        timeout: 30000
+      })
+    },
     post(url, data) {
         return axios({
             method: 'post',
