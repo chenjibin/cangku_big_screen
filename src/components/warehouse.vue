@@ -235,6 +235,10 @@ export default {
           num: '100,000'
         }
       ],
+      radioData: {
+        name: '1218108080',
+        value: ['2017-11-11 10:50:26', 20]
+      },
       sendRadio: [2, 7, 10, 18, 14, 18, 20, 30, 10, 18, 33, 24, 20, 19, 39],
       polar: {
         tooltip: {
@@ -307,6 +311,8 @@ export default {
     this.polar.series[0].data = this.sendRadio
   },
   mounted() {
+      this.getWarehouseData()
+//    console.log(moment('2017-11-11 10:50:26').minutes())
     setInterval(() => {
       let nowTime = moment().format('YYYY-MM-DD hh:mm:ss')
       this.warehouseData.forEach((item) => {
@@ -314,12 +320,18 @@ export default {
       })
       this.saleData.end += 1000
       this.updateTime = nowTime
-    }, 1000)
+    }, globalData.duration)
   },
   methods: {
     getWarehouseData() {
-      this.$http.get('').then((res) => {
-        if (res) {
+      this.$http.getextra(globalData.api).then((res) => {
+        if (res.success) {
+          this.updateTime = res.results.updateTime
+          this.saleData = res.results.saleData
+          this.provinceData = res.results.provinceData
+          this.warehouseData = res.results.warehouseData
+          this.sendOrder = res.results.sendOrder
+          this.findOrder = res.results.findOrder
         }
       })
     }

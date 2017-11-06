@@ -75,11 +75,18 @@
     name: 'warehouse',
     data () {
       return {
-        updateTime: '0000-00-00 00:00:00',
         saleData: {
           start: 0,
           end: 0
         },
+        nowMoney: 1500000,
+        shopData: [
+          {
+            name: '幸运叶子官方旗舰店',
+            money: 500000
+          }
+        ],
+        updateTime: '0000-00-00 00:00:00',
         provinceData: [
           {
             name: '江苏省',
@@ -102,6 +109,14 @@
             percent: 2.09
           }
         ],
+        saleRadioData: {
+          name: '1218108080',
+          value: ['2017-11-11 10:50:26', 20]
+        },
+        allSaleData: {
+          name: '1218108080',
+          value: ['2017-11-11 10:50:26', 20]
+        },
         sendOrder: [
           {
             name: '徐青',
