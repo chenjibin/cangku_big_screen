@@ -1,8 +1,5 @@
 <template>
   <div id="app" style="">
-    <div class="logo-wrapper">
-      <img src="./assets/tm_logo.png" />
-    </div>
     <div class="fs-main-content-router-wrapper">
       <transition
         name="fade"
@@ -62,6 +59,8 @@ body,html {
 .logo-wrapper {
   padding-top: 40px;
   position: absolute;
+  left: 0;
+  top:0;
   width: 100%;
   z-index: 100;
   text-align: center;
