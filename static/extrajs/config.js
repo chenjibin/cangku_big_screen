@@ -3,6 +3,8 @@
  */
 
 var globalData = {
-  api: 'https://api.github.com/_private/browser/stats',
-  duration: 2000
+  api: '',
+  saleApi: '',
+  duration: 1000,
+  saleDuration: 2000
 }

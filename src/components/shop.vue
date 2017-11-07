@@ -21,12 +21,12 @@
           <p class="title">今日实时各店铺支付金额排行榜</p>
           <div class="line"></div>
           <ul class="list">
-            <template v-for="item,index in sendOrder">
+            <template v-for="item,index in shopData">
               <li class="item flex-box" :class="{good: index <= 2}">
                 <p class="order">{{index + 1}}</p>
                 <p class="flex-one">{{item.name}}</p>
                 <p class="flex-one num">
-                  <vue-countup class="number" :start="0" :end="item.num"></vue-countup>
+                  <vue-countup class="number" :start="0" :end="item.money"></vue-countup>
                 </p>
               </li>
               <div class="line"></div>
@@ -37,7 +37,7 @@
     </div>
     <div class="center-area">
       <div class="number-block">
-        <vue-countup class="number" :start="saleData.start" :end="saleData.end"></vue-countup>
+        <vue-countup class="number" :start="0" :end="nowMoney"></vue-countup>
       </div>
       <div class="all-sale-block">
         <vue-echarts :options="polar2" :auto-resize="true" class="line-pic"></vue-echarts>
@@ -82,21 +82,55 @@
   import FsFill from '@/comment/fs-fill'
   import FsLineprogress from '@/comment/fs-lineprogress'
   import FsBoom from '@/comment/fs-boom'
-
+  import jsonp from '@/utils/jsonp'
   export default {
     name: 'warehouse',
     data () {
       return {
+        showBomeArr: [10000, 50000, 100000, 150000],
         boomShow: false,
+        cancanShow: true,
         boomNum: 1000,
         canShow: true,
-        saleData: {
-          start: 0,
-          end: 0
-        },
-        nowMoney: 1500000,
+        nowMoney: 0,
         testMoney: 0,
         shopData: [
+          {
+            name: '幸运叶子官方旗舰店',
+            money: 500000
+          },
+          {
+            name: '幸运叶子官方旗舰店',
+            money: 500000
+          },
+          {
+            name: '幸运叶子官方旗舰店',
+            money: 500000
+          },
+          {
+            name: '幸运叶子官方旗舰店',
+            money: 500000
+          },
+          {
+            name: '幸运叶子官方旗舰店',
+            money: 500000
+          },
+          {
+            name: '幸运叶子官方旗舰店',
+            money: 500000
+          },
+          {
+            name: '幸运叶子官方旗舰店',
+            money: 500000
+          },
+          {
+            name: '幸运叶子官方旗舰店',
+            money: 500000
+          },
+          {
+            name: '幸运叶子官方旗舰店',
+            money: 500000
+          },
           {
             name: '幸运叶子官方旗舰店',
             money: 500000
@@ -133,49 +167,7 @@
           name: '1218108080',
           value: ['2017-11-11 10:50:26', 20]
         },
-        sendOrder: [
-          {
-            name: '幸运叶子官方旗舰店',
-            num: 20000000
-          },
-          {
-            name: '幸运叶子官方旗舰店',
-            num: 10000000
-          },
-          {
-            name: '幸运叶子官方旗舰店',
-            num: 1000
-          },
-          {
-            name: '幸运叶子官方旗舰店',
-            num: 0
-          },
-          {
-            name: '幸运叶子官方旗舰店',
-            num: 0
-          },
-          {
-            name: '幸运叶子官方旗舰店',
-            num: 5000
-          },
-          {
-            name: '幸运叶子官方旗舰店',
-            num: 0
-          },
-          {
-            name: '幸运叶子官方旗舰店',
-            num: 0
-          },
-          {
-            name: '幸运叶子官方旗舰店',
-            num: 0
-          },
-          {
-            name: '幸运叶子官方旗舰店',
-            num: 200
-          }
-        ],
-        sendRadio: [2, 7, 10, 18, 14, 18, 20, 30, 10, 18, 33, 24, 20, 19, 39],
+//        sendRadio: [2, 7, 10, 18, 14, 18, 20, 30, 10, 18, 33, 24, 20, 19, 39],
         sendRadio2: [10000000, 20000000, 30000000, 40000000, 80000000, 90000000, 100000000],
         polar: {
           tooltip: {
@@ -195,6 +187,7 @@
           },
           xAxis: {
             type: 'category',
+            data: [],
             boundaryGap: false,
             axisLine: {
               lineStyle: {
@@ -208,8 +201,7 @@
             },
             nameTextStyle: {
               color: 'rgb(255,255,255)'
-            },
-            data: ['8:00', '8:30', '9:00', '9:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00']
+            }
           },
           yAxis: {
             type: 'value',
@@ -259,6 +251,7 @@
           xAxis: {
             type: 'time',
             boundaryGap: false,
+            splitNumber: 12,
             axisLine: {
               lineStyle: {
                 color: '#4e7eff'
@@ -317,29 +310,65 @@
       }
     },
     created() {
-      this.polar.series[0].data = this.sendRadio
+      jsonp(globalData.saleApi, {flag: 'refresh'}, {param: 'jsonpCallback', prefix: 'jp'}).then((res) => {
+        if (res.success) {
+          this.updateTime = res.results.updateTime
+          this.nowMoney = res.results.nowMoney
+          this.provinceData = res.results.provinceData
+          this.shopData = res.results.shopData
+
+          let newArr = []
+          let newArr2 = []
+          res.results.saleRadioData.forEach((item) => {
+            newArr.push(+item.num)
+            newArr2.push(item.hour)
+          })
+          this.polar.series[0].data = newArr
+          this.polar.xAxis.data = newArr2
+
+          this.polar2.series[0].data = res.results.allSaleData
+        }
+      }).catch((err) => {
+        console.log(err)
+      })
+      setInterval(() => {
+        this.getAllShopData()
+      }, globalData.saleDuration)
     },
     mounted() {
-      setInterval(() => {
-        let nowTime = moment().format('YYYY-MM-DD hh:mm:ss')
-        this.saleData.end += 1000
-        this.updateTime = nowTime
-        this.upDataTestLine()
-        if (this.saleData.end > 10000 && this.canShow) {
-          this.boomShow = true
-          this.canShow = false
-          setTimeout(() => {
-            this.boomShow = false
-            this.canShow = true
-          }, 4000)
-        }
-      }, 1000)
+
     },
     methods: {
-      getWarehouseData() {
-        this.$http.get('').then((res) => {
-          if (res) {
+      getAllShopData() {
+        jsonp(globalData.saleApi, {}, {param: 'jsonpCallback', prefix: 'jp'}).then((res) => {
+          if (res.success) {
+            this.updateTime = res.results.updateTime
+            this.nowMoney = res.results.nowMoney
+            if (this.nowMoney > 10000 && this.canShow && this.cancanShow) {
+              this.cancanShow = false
+              this.boomShow = true
+              this.canShow = false
+              setTimeout(() => {
+                this.boomShow = false
+                this.canShow = true
+              }, 4000)
+            }
+            this.provinceData = res.results.provinceData
+            this.shopData = res.results.shopData
+
+            let newArr = []
+            let newArr2 = []
+            res.results.saleRadioData.forEach((item) => {
+              newArr.push(+item.num)
+              newArr2.push(item.hour)
+            })
+            this.polar.series[0].data = newArr
+            this.polar.xAxis.data = newArr2
+
+            this.polar2.series[0].data = [...this.polar2.series[0].data, res.results.newSaleData]
           }
+        }).catch((err) => {
+          console.log(err)
         })
       },
       hideBoom() {
@@ -349,9 +378,11 @@
       upDataTestLine() {
         let obj = this.randomData()
         this.polar2.series[0].data = [...this.polar2.series[0].data, obj]
+//        this.polar2.series[1].data = [...this.polar2.series[0].data, obj]
       },
       randomData() {
         this.testMoney += Math.round(Math.random() * 100000)
+        this.nowMoney = this.testMoney
         let nowTime = moment().format('YYYY-MM-DD hh:mm:ss')
         return {
           name: nowTime,

@@ -1,7 +1,7 @@
 <template>
   <transition>
     <div class="boom-component" v-if="boomShow">
-      <video id="video-index" autoplay="true" loop="true" src="http://echarts.baidu.com/video/index.mp4" poster="http://echarts.baidu.com/video/index.mp4"></video>
+      <video id="video-index" autoplay="true" loop="true" src="https://gw.alipayobjects.com/os/rmsportal/uSTcoTsHGHTJeCzrhiFM.mp4" poster="https://gw.alipayobjects.com/os/rmsportal/uSTcoTsHGHTJeCzrhiFM.mp4"></video>
       <div class="mask"></div>
     </div>
   </transition>

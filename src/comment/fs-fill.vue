@@ -1,5 +1,6 @@
 <template>
   <div class="num-fill-component">
+    <div class="hide-num" v-show="hideTextShow">{{now}}</div>
     <div class="progress" ref="progress" :title="now">
       <div class="wave-wrapper" style="z-index: 2;">
         <div class="inner">
@@ -29,6 +30,17 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     background-color: rgba(10, 2, 47, 0.5);
+    .hide-num {
+      position: absolute;
+      left: 0;
+      top: 20px;
+      z-index: 100;
+      width: 100%;
+      text-align: center;
+      color: #ff4e00;
+      font-weight: 700;
+      font-size: 24px;
+    }
     .progress {
       position: absolute;
       bottom: 0;
@@ -36,7 +48,7 @@
       width: 100%;
       height:0;
       background-color: rgba(0, 255, 138, 0.7);
-      transition: height 0.5s ease-in-out;
+      transition: height 2s ease-in-out;
       .wave-wrapper {
         position: absolute;
         left: 0;
@@ -93,15 +105,23 @@
         },
         watch: {
           'now'() {
+            let radio = (this.now / this.target).toFixed(2)
+            if (radio >= 0.95) {
+              this.hideTextShow = true
+            }
             this._setProgressHeight()
           }
         },
         data() {
             return {
-
+              hideTextShow: false
             }
         },
         mounted() {
+          let radio = (this.now / this.target).toFixed(2)
+          if (radio >= 0.95) {
+            this.hideTextShow = true
+          }
           this.$el.style.height = this.height + 'px'
           this._setProgressHeight()
         },

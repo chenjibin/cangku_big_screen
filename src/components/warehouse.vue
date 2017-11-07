@@ -75,7 +75,7 @@
           <p class="title">顾客发货地域分布(省份)</p>
           <div class="line"></div>
           <div class="area-block">
-            <div class="each-area" v-for="item,index in provinceData">
+            <div class="each-area" v-for="item,index in provinceData" v-if="index <= 5">
               <div class="desc flex-box">
                 <span class="name">{{item.name}}</span>
                 <span class="num">{{item.percent + '%'}}</span>
@@ -90,6 +90,7 @@
 </template>
 
 <script>
+  import jsonp from '@/utils/jsonp'
   import * as moment from 'moment'
   import VueEcharts from 'vue-echarts'
   import VueCountup from '@/comment/vue-countup'
@@ -105,144 +106,10 @@ export default {
         start: 0,
         end: 0
       },
-      provinceData: [
-        {
-          name: '江苏省',
-          percent: 10.14
-        },
-        {
-          name: '浙江省',
-          percent: 8.28
-        },
-        {
-          name: '广东省',
-          percent: 8.28
-        },
-        {
-          name: '北京市',
-          percent: 5.38
-        },
-        {
-          name: '山东省',
-          percent: 2.09
-        }
-      ],
-      warehouseData: [
-        {
-          name: '7号仓',
-          target: 50000,
-          now: 0
-        },
-        {
-          name: '8号仓',
-          target: 50000,
-          now: 0
-        },
-        {
-          name: '9号仓',
-          target: 50000,
-          now: 0
-        },
-        {
-          name: '10号仓',
-          target: 50000,
-          now: 0
-        },
-        {
-          name: '实体专卖',
-          target: 50000,
-          now: 0
-        }
-      ],
-      sendOrder: [
-        {
-          name: '徐青',
-          num: '100,000'
-        },
-        {
-          name: '徐青',
-          num: '100,000'
-        },
-        {
-          name: '徐青',
-          num: '100,000'
-        },
-        {
-          name: '徐青',
-          num: '100,000'
-        },
-        {
-          name: '徐青',
-          num: '100,000'
-        },
-        {
-          name: '徐青',
-          num: '100,000'
-        },
-        {
-          name: '徐青',
-          num: '100,000'
-        },
-        {
-          name: '徐青',
-          num: '100,000'
-        },
-        {
-          name: '徐青',
-          num: '100,000'
-        },
-        {
-          name: '徐青',
-          num: '100,000'
-        }
-      ],
-      findOrder: [
-        {
-          name: '徐青',
-          num: '100,000'
-        },
-        {
-          name: '徐青',
-          num: '100,000'
-        },
-        {
-          name: '徐青',
-          num: '100,000'
-        },
-        {
-          name: '徐青',
-          num: '100,000'
-        },
-        {
-          name: '徐青',
-          num: '100,000'
-        },
-        {
-          name: '徐青',
-          num: '100,000'
-        },
-        {
-          name: '徐青',
-          num: '100,000'
-        },
-        {
-          name: '徐青',
-          num: '100,000'
-        },
-        {
-          name: '徐青',
-          num: '100,000'
-        },
-        {
-          name: '徐青',
-          num: '100,000'
-        }
-      ],
-      radioData: {
-        name: '1218108080',
-        value: ['2017-11-11 10:50:26', 20]
-      },
-      sendRadio: [2, 7, 10, 18, 14, 18, 20, 30, 10, 18, 33, 24, 20, 19, 39],
+      provinceData: [],
+      warehouseData: [],
+      sendOrder: [],
+      findOrder: [],
       polar: {
         tooltip: {
           trigger: 'axis'
@@ -261,6 +128,7 @@ export default {
         },
         xAxis: {
           type: 'category',
+          data: ['07', '08', '09', '10', '11', '12', '13'],
           boundaryGap: false,
           axisLine: {
             lineStyle: {
@@ -274,8 +142,7 @@ export default {
           },
           nameTextStyle: {
             color: 'rgb(255,255,255)'
-          },
-          data: ['8:00', '8:30', '9:00', '9:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00']
+          }
         },
         yAxis: {
           type: 'value',
@@ -311,30 +178,35 @@ export default {
     }
   },
   created() {
-    this.polar.series[0].data = this.sendRadio
-  },
-  mounted() {
-      this.getWarehouseData()
-//    console.log(moment('2017-11-11 10:50:26').minutes())
+    this.getWarehouseData()
     setInterval(() => {
-      let nowTime = moment().format('YYYY-MM-DD hh:mm:ss')
-      this.warehouseData.forEach((item) => {
-        item.now += 100
-      })
-      this.saleData.end += 1000
-      this.updateTime = nowTime
+      this.getWarehouseData()
     }, globalData.duration)
   },
+//  mounted() {
+//      this.getWarehouseData()
+//    setInterval(() => {
+//      this.getWarehouseData()
+//    }, globalData.duration)
+//  },
   methods: {
     getWarehouseData() {
-      this.$http.getextra(globalData.api).then((res) => {
+      jsonp(globalData.api, {}, {param: 'jsonpCallback', prefix: 'jp'}).then((res) => {
         if (res.success) {
           this.updateTime = res.results.updateTime
-          this.saleData = res.results.saleData
+          this.saleData.end = res.results.saledData
           this.provinceData = res.results.provinceData
           this.warehouseData = res.results.warehouseData
           this.sendOrder = res.results.sendOrder
           this.findOrder = res.results.findOrder
+          let newArr = []
+          let newArr2 = []
+          res.results.radioData.forEach((item) => {
+            newArr.push(+item.num)
+            newArr2.push(item.hour)
+          })
+          this.polar.series[0].data = newArr
+          this.polar.xAxis.data = newArr2
         }
       })
     }
@@ -600,7 +472,7 @@ export default {
 
         .t-number {
           margin-bottom: 10px;
-          font-size: 20px;
+          font-size: 24px;
           font-weight: 700;
           color: #01ff8a;
         }
@@ -739,7 +611,7 @@ export default {
           width: 230px;
         }
         .area-block {
-          margin-top: 30px;
+          margin-top: 12px;
           .each-area {
             padding: 10px 0 0 0;
           }
