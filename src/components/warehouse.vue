@@ -1,5 +1,8 @@
 <template>
   <div class="warehouse flex-box">
+    <div class="logo-wrapper">
+      <img src="../assets/tm_logo.png" />
+    </div>
     <div class="flex-one left-area">
       <div class="spec-block-one">
         <p class="time">数据更新时间:{{updateTime}}</p>

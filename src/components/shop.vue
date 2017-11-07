@@ -1,5 +1,9 @@
 <template>
   <div class="shop flex-box">
+    <fs-boom :visible="boomShow" :num="boomNum" @hide="hideBoom" :time="4000"></fs-boom>
+    <div class="logo-wrapper">
+      <img src="../assets/sale_logo.png" />
+    </div>
     <div class="flex-one left-area">
       <div class="spec-block-one">
         <p class="time">{{updateTime}}</p>
@@ -17,11 +21,16 @@
           <p class="title">今日实时各店铺支付金额排行榜</p>
           <div class="line"></div>
           <ul class="list">
-            <li v-for="item,index in sendOrder" class="item flex-box" :class="{good: index <= 2}">
-              <p class="order">{{index + 1}}</p>
-              <p class="flex-one">{{item.name}}</p>
-              <p class="flex-one">{{item.num}}</p>
-            </li>
+            <template v-for="item,index in sendOrder">
+              <li class="item flex-box" :class="{good: index <= 2}">
+                <p class="order">{{index + 1}}</p>
+                <p class="flex-one">{{item.name}}</p>
+                <p class="flex-one num">
+                  <vue-countup class="number" :start="0" :end="item.num"></vue-countup>
+                </p>
+              </li>
+              <div class="line"></div>
+            </template>
           </ul>
         </div>
       </div>
@@ -30,7 +39,9 @@
       <div class="number-block">
         <vue-countup class="number" :start="saleData.start" :end="saleData.end"></vue-countup>
       </div>
-
+      <div class="all-sale-block">
+        <vue-echarts :options="polar2" :auto-resize="true" class="line-pic"></vue-echarts>
+      </div>
     </div>
     <div class="flex-one right-area">
       <div class="spec-block flex-box">
@@ -70,16 +81,21 @@
   import VueCountup from '@/comment/vue-countup'
   import FsFill from '@/comment/fs-fill'
   import FsLineprogress from '@/comment/fs-lineprogress'
+  import FsBoom from '@/comment/fs-boom'
 
   export default {
     name: 'warehouse',
     data () {
       return {
+        boomShow: false,
+        boomNum: 1000,
+        canShow: true,
         saleData: {
           start: 0,
           end: 0
         },
         nowMoney: 1500000,
+        testMoney: 0,
         shopData: [
           {
             name: '幸运叶子官方旗舰店',
@@ -119,47 +135,48 @@
         },
         sendOrder: [
           {
-            name: '徐青',
-            num: '100,000'
+            name: '幸运叶子官方旗舰店',
+            num: 20000000
           },
           {
-            name: '徐青',
-            num: '100,000'
+            name: '幸运叶子官方旗舰店',
+            num: 10000000
           },
           {
-            name: '徐青',
-            num: '100,000'
+            name: '幸运叶子官方旗舰店',
+            num: 1000
           },
           {
-            name: '徐青',
-            num: '100,000'
+            name: '幸运叶子官方旗舰店',
+            num: 0
           },
           {
-            name: '徐青',
-            num: '100,000'
+            name: '幸运叶子官方旗舰店',
+            num: 0
           },
           {
-            name: '徐青',
-            num: '100,000'
+            name: '幸运叶子官方旗舰店',
+            num: 5000
           },
           {
-            name: '徐青',
-            num: '100,000'
+            name: '幸运叶子官方旗舰店',
+            num: 0
           },
           {
-            name: '徐青',
-            num: '100,000'
+            name: '幸运叶子官方旗舰店',
+            num: 0
           },
           {
-            name: '徐青',
-            num: '100,000'
+            name: '幸运叶子官方旗舰店',
+            num: 0
           },
           {
-            name: '徐青',
-            num: '100,000'
+            name: '幸运叶子官方旗舰店',
+            num: 200
           }
         ],
         sendRadio: [2, 7, 10, 18, 14, 18, 20, 30, 10, 18, 33, 24, 20, 19, 39],
+        sendRadio2: [10000000, 20000000, 30000000, 40000000, 80000000, 90000000, 100000000],
         polar: {
           tooltip: {
             trigger: 'axis'
@@ -224,6 +241,78 @@
               data: []
             }
           ]
+        },
+        polar2: {
+          tooltip: {
+            trigger: 'axis'
+          },
+          grid: {
+            left: '0',
+            bottom: '0',
+            containLabel: true
+          },
+          toolbox: {
+            feature: {
+              saveAsImage: {}
+            }
+          },
+          xAxis: {
+            type: 'time',
+            boundaryGap: false,
+            axisLine: {
+              lineStyle: {
+                color: '#4e7eff'
+              }
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: 'rgba(78, 126, 255, 0.8)'
+              }
+            },
+            nameTextStyle: {
+              color: '#fff'
+            },
+            axisLabel: {
+              textStyle: {
+                color: '#fff'
+              }
+            }
+          },
+          yAxis: {
+            type: 'value',
+            axisLabel: {
+              textStyle: {
+                color: '#fff'
+              }
+            },
+            axisLine: {
+              show: false,
+              lineStyle: {
+                color: '#4e7eff'
+              }
+            },
+            splitLine: {
+              show: false,
+              lineStyle: {
+                color: 'rgba(78, 126, 255, 0.5)'
+              }
+            }
+          },
+          series: [
+            {
+              name: '当前销售总金额',
+              type: 'line',
+              stack: '总量',
+              showSymbol: false,
+              lineStyle: {
+                normal: {
+                  color: '#ffd702'
+                }
+              },
+              data: []
+            }
+          ]
         }
       }
     },
@@ -235,6 +324,15 @@
         let nowTime = moment().format('YYYY-MM-DD hh:mm:ss')
         this.saleData.end += 1000
         this.updateTime = nowTime
+        this.upDataTestLine()
+        if (this.saleData.end > 10000 && this.canShow) {
+          this.boomShow = true
+          this.canShow = false
+          setTimeout(() => {
+            this.boomShow = false
+            this.canShow = true
+          }, 4000)
+        }
       }, 1000)
     },
     methods: {
@@ -243,13 +341,30 @@
           if (res) {
           }
         })
+      },
+      hideBoom() {
+        this.boomShow = false
+        this.canShow = true
+      },
+      upDataTestLine() {
+        let obj = this.randomData()
+        this.polar2.series[0].data = [...this.polar2.series[0].data, obj]
+      },
+      randomData() {
+        this.testMoney += Math.round(Math.random() * 100000)
+        let nowTime = moment().format('YYYY-MM-DD hh:mm:ss')
+        return {
+          name: nowTime,
+          value: [nowTime, this.testMoney]
+        }
       }
     },
     components: {
       VueEcharts,
       VueCountup,
       FsFill,
-      FsLineprogress
+      FsLineprogress,
+      FsBoom
     }
   }
 </script>
@@ -266,7 +381,7 @@
       }
       .spec-block-one {
         margin-top: 40px;
-        margin-bottom: 60px;
+        margin-bottom: 110px;
         .line-one {
           position: absolute;
           top: 24px;
@@ -330,8 +445,8 @@
         }
         .line-one {
           position: absolute;
-          top: 64px;
-          left: 270px;
+          top: 138px;
+          left: 400px;
           width: 150px;
           height: 1px;
           background-color: rgba(78, 126, 255, 0.80);
@@ -349,9 +464,9 @@
             content: '';
             display: inline-block;
             position: absolute;
-            right: -109px;
-            top: 57px;
-            width: 140px;
+            right: -70px;
+            top: 37px;
+            width: 90px;
             height: 1px;
             background-color: rgba(78, 126, 255, 0.8);
             transform: rotateZ(55deg);
@@ -359,10 +474,10 @@
         }
         .line-two {
           position: absolute;
-          top: 179px;
-          left: 500px;
-          width: 100px;
-          height: 1px;
+          top: 210px;
+          left: 603px;
+          width: 0;
+          height: 0;
           background-color: rgba(78, 126, 255, 0.80);
           &::after {
             content: '';
@@ -414,13 +529,23 @@
           .list {
             margin-top: 20px;
             color: #fff;
+            .line {
+              background-color: rgba(78, 126, 255, 0.5);
+              &::before,&::after {
+                content: '';
+                display: inline-block;
+                position: absolute;
+                top: -1px;
+                width: 3px;
+                height: 3px;
+                background-color: #ff4e00
+              }
+            }
             .item {
-              padding: 6px 0;
+              padding: 10px 0;
               align-items: center;
-              border-bottom: 1px solid #ff4e00;
               font-size: 16px;
               &.good {
-                border-bottom: 1px solid #ffd702;
                 .order {
                   color: #ffd702;
                 }
@@ -429,6 +554,9 @@
                 width: 30px;
                 flex: 0 0 30px;
                 color: #ff4e00;
+              }
+              .num {
+                text-align: right;
               }
 
             }
@@ -461,14 +589,21 @@
       width: 700px;
       flex: 0 0 700px;
       text-align: center;
+      .all-sale-block {
+        .line-pic {
+          width: 100%;
+          height:650px;
+        }
+
+      }
       .number-block {
-        margin: 40px auto 0 auto;
+        margin: 80px auto 0 auto;
         width: 85%;
         .number {
           font-family: initial;
           font-weight: 700;
           text-align: center;
-          background: -webkit-linear-gradient(bottom,#ff4e00,#ffd702);
+          background: -webkit-linear-gradient(bottom,#e60000,#ffd702);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           color: #ff4e00;
@@ -504,10 +639,11 @@
       }
     }
     .right-area {
+      padding-top: 50px;
       .spec-block {
         position: relative;
-        margin-left: 50px;
-        margin-bottom: 30px;
+        margin-left: 80px;
+        margin-bottom: 40px;
         align-items: baseline;
         font-size: 16px;
         font-weight: 700;
@@ -516,7 +652,7 @@
           width: 80px;
         }
         .title {
-          margin-left: 10px;
+          font-size: 20px;
         }
         .line-one {
           position: absolute;
@@ -567,7 +703,7 @@
         }
       }
       .main-block {
-        margin-left: 40px;
+        margin-left: 70px;
         .each-block {
           padding: 16px;
           width: 440px;
@@ -635,7 +771,6 @@
           }
         }
       }
-
     }
   }
 

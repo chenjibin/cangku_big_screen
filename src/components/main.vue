@@ -1,5 +1,8 @@
 <template>
   <div class="main flex-box flex-center">
+    <div class="logo-wrapper">
+      <img src="../assets/tm_logo.png" />
+    </div>
     <div class="btn-wrapper flex-box">
       <div class="btn" @click="_toTargetWar('warehouse')">
         <img src="../assets/warehouse_btn.png" />
