@@ -1,5 +1,6 @@
 <template>
   <div class="warehouse flex-box">
+  <fs-boom :visible="boomShow" :number="boomNum" @show="showBoom" @hide="hideBoom" pre="出货量"></fs-boom>
     <div class="logo-wrapper">
       <img src="../assets/tm_logo.png" />
     </div>
@@ -96,11 +97,15 @@
   import VueCountup from '@/comment/vue-countup'
   import FsFill from '@/comment/fs-fill'
   import FsLineprogress from '@/comment/fs-lineprogress'
+  import FsBoom from '@/comment/fs-boom'
 
 export default {
   name: 'warehouse',
   data () {
     return {
+      boomNum: '',
+      boomShow: false,
+      showBigAni: globalData.warehouseBigAni,
       updateTime: '0000-00-00 00:00:00',
       saleData: {
         start: 0,
@@ -183,18 +188,16 @@ export default {
       this.getWarehouseData()
     }, globalData.duration)
   },
-//  mounted() {
-//      this.getWarehouseData()
-//    setInterval(() => {
-//      this.getWarehouseData()
-//    }, globalData.duration)
-//  },
+ mounted() {
+
+ },
   methods: {
     getWarehouseData() {
       jsonp(globalData.api, {}, {param: 'jsonpCallback', prefix: 'jp'}).then((res) => {
         if (res.success) {
           this.updateTime = res.results.updateTime
           this.saleData.end = res.results.saledData
+          this.isShowBigAni(this.saleData.end)
           this.provinceData = res.results.provinceData
           this.warehouseData = res.results.warehouseData
           this.sendOrder = res.results.sendOrder
@@ -209,13 +212,33 @@ export default {
           this.polar.xAxis.data = newArr2
         }
       })
+    },
+    showBoom() {
+      this.boomShow = true
+    },
+    hideBoom() {
+      this.boomShow = false
+    },
+    isShowBigAni(now) {
+        this.showBigAni.forEach((item, index) => {
+          let flag = now >= item.val && (this.showBigAni[index + 1] ? now <= this.showBigAni[index + 1].val : true) && item.flag
+          if (flag) {
+            let textNum = this.toTrand(item.val)
+            this.boomNum = textNum
+            item.flag = false
+          }
+        })
+      },
+    toTrand(num) {
+        return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
     }
   },
   components: {
     VueEcharts,
     VueCountup,
     FsFill,
-    FsLineprogress
+    FsLineprogress,
+    FsBoom
   }
 }
 </script>

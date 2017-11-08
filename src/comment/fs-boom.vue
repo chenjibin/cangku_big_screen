@@ -1,7 +1,9 @@
 <template>
   <transition name="fade">
-    <div class="boom-component" v-show="boomShow">
-      <video id="video-index" autoplay="true" loop="true" src="https://gw.alipayobjects.com/os/rmsportal/uSTcoTsHGHTJeCzrhiFM.mp4" poster="https://gw.alipayobjects.com/os/rmsportal/uSTcoTsHGHTJeCzrhiFM.mp4"></video>
+    <div class="boom-component" v-show="visible">
+      <video id="video-index" ref="videoDom" autoplay="true" loop="true">
+        <source src="https://gw.alipayobjects.com/os/rmsportal/uSTcoTsHGHTJeCzrhiFM.mp4" type="video/mp4" />
+      </video>
       <div class="mask flex-box flex-center">
         <div class="big-number"></div>
       </div>
@@ -17,9 +19,9 @@
             type: Boolean,
             default: false
           },
-          time: {
-            type: Number,
-            default: 1000
+          pre: {
+            type: String,
+            default: '¥'
           },
           number: {
             type: String,
@@ -28,28 +30,32 @@
         },
         watch: {
           'number'(val) {
-            this.boomShow = true
+            this.$emit('show')
+            document.querySelector('#audio').play()
 
             setTimeout(() => {
               odoo.default({
                 el: '.big-number',
-                value: '￥' + val,
-                animationDelay: 2000}
-              )
+                value: this.pre + val,
+                animationDelay: 2000
+                })
             }, 20)
+            setTimeout(() => {
+              this.$emit('hide')
+              document.querySelector('#audio').pause()
+            }, 20000)
           }
         },
         data() {
             return {
-              boomShow: this.visible,
               setTime: null
             }
         },
         mounted() {
-
+          this.$refs.videoDom.style.width = 'auto'
+          this.$refs.videoDom.style.height = '1080px'
         },
-        components: {
-
+        methods: {
         }
     }
 </script>
@@ -70,7 +76,6 @@
       display: inline-block;
       vertical-align: baseline;
       width: 100%;
-      height:100%;
     }
     .mask {
       position: absolute;

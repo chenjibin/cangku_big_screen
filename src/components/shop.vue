@@ -1,6 +1,6 @@
 <template>
   <div class="shop flex-box">
-    <fs-boom :visible="boomShow" :number="boomNum" @hide="hideBoom" :time="4000"></fs-boom>
+    <fs-boom :visible="boomShow" :number="boomNum" @show="showBoom" @hide="hideBoom"></fs-boom>
     <div class="logo-wrapper">
       <img src="../assets/sale_logo.png" />
     </div>
@@ -114,32 +114,7 @@
         shopData: [],
         updateTime: '0000-00-00 00:00:00',
         provinceData: [],
-        showBigAni: [
-          {
-            flag: true,
-            val: 100000
-          },
-          {
-            flag: true,
-            val: 200000
-          },
-          {
-            flag: true,
-            val: 300000
-          },
-          {
-            flag: true,
-            val: 400000
-          },
-          {
-            flag: true,
-            val: 800000
-          },
-          {
-            flag: true,
-            val: 900000
-          }
-        ],
+        showBigAni: globalData.saleBigAni,
         polar: {
           tooltip: {
             trigger: 'axis'
@@ -193,7 +168,7 @@
           },
           series: [
             {
-              name: '完成发货速率',
+              name: '销售额',
               type: 'line',
               stack: '总量',
               lineStyle: {
@@ -222,7 +197,7 @@
           xAxis: {
             type: 'time',
             boundaryGap: false,
-            splitNumber: 12,
+            splitNumber: 13,
             axisLine: {
               lineStyle: {
                 color: '#4e7eff'
@@ -285,6 +260,9 @@
         if (res.success) {
           this.updateTime = res.results.updateTime
           this.nowMoney = res.results.nowMoney
+
+          this.isShowBigAni(this.nowMoney)
+
           this.provinceData = res.results.provinceData
 
           this.shopData = res.results.shopData.sort((x, y) => {
@@ -310,6 +288,9 @@
       }, globalData.saleDuration)
     },
     mounted() {
+      setTimeout(() => {
+
+      }, 20)
       setInterval(() => {
         this.shopShow = !this.shopShow
       }, 5000)
@@ -321,15 +302,6 @@
             this.updateTime = res.results.updateTime
             this.nowMoney = res.results.nowMoney
             this.isShowBigAni(this.nowMoney)
-            if (this.nowMoney > 10000 && this.canShow && this.cancanShow) {
-              this.cancanShow = false
-              this.boomShow = true
-              this.canShow = false
-//              setTimeout(() => {
-//                this.boomShow = false
-//                this.canShow = true
-//              }, 4000)
-            }
             this.provinceData = res.results.provinceData
 
             this.shopData = res.results.shopData.sort((x, y) => {
@@ -346,24 +318,24 @@
             this.polar.xAxis.data = newArr2
 
             let newSale = {}
-            newSale.name = res.results.newSaleData.name
-            newSale.value = [res.results.newSaleData.name, res.results.newSaleData.value]
+            newSale.name = res.results.updateTime
+            newSale.value = [res.results.updateTime, res.results.nowMoney]
 
             this.polar2.series[0].data = [...this.polar2.series[0].data, newSale]
-
-            console.log(this.polar2.series[0].data)
           }
         }).catch((err) => {
           console.log(err)
-        })``
+        })
+      },
+      showBoom() {
+        this.boomShow = true
       },
       hideBoom() {
         this.boomShow = false
-        this.canShow = true
       },
       isShowBigAni(now) {
         this.showBigAni.forEach((item, index) => {
-          let flag = now >= item.val && now <= this.showBigAni[index + 1].val && item.flag
+          let flag = now >= item.val && (this.showBigAni[index + 1] ? now <= this.showBigAni[index + 1].val : true) && item.flag
           if (flag) {
             let textNum = this.toTrand(item.val)
             this.boomNum = textNum
@@ -624,7 +596,7 @@
       }
       .number-block {
         margin: 80px auto 0 auto;
-        width: 85%;
+        width: 95%;
         .number {
           font-family: initial;
           font-weight: 700;
@@ -633,7 +605,7 @@
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           color: #ff4e00;
-          font-size: 70px;
+          font-size: 90px;
         }
         .line {
           margin: 4px 0;

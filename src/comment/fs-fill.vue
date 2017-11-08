@@ -1,7 +1,7 @@
 <template>
   <div class="num-fill-component">
     <div class="hide-num" v-show="hideTextShow">{{now}}</div>
-    <div class="progress" ref="progress" :title="now">
+    <div class="progress" ref="progress" :title="now" :class="{hide: isHide}">
       <div class="wave-wrapper" style="z-index: 2;">
         <div class="inner">
           <div class="wave wave-one"></div>
@@ -79,6 +79,9 @@
           background-image: url('../assets/green_wave.png');
         }
       }
+      &.hide::after {
+        display: none;
+      }
       &::after {
         content: attr(title);
         display: block;
@@ -106,21 +109,28 @@
         watch: {
           'now'() {
             let radio = (this.now / this.target).toFixed(2)
-            if (radio >= 0.95) {
+            let eHeight = this.height * radio - 10
+            let flag = (eHeight + 20 + 10 - this.height) >= 0
+            if (flag) {
               this.hideTextShow = true
+              this.isHide = true
             }
             this._setProgressHeight()
           }
         },
         data() {
             return {
-              hideTextShow: false
+              hideTextShow: false,
+              isHide: false
             }
         },
         mounted() {
           let radio = (this.now / this.target).toFixed(2)
-          if (radio >= 0.95) {
+           let eHeight = this.height * radio - 10
+            let flag = (eHeight + 20 + 10 - this.height) >= 0
+          if (flag) {
             this.hideTextShow = true
+            this.isHide = true
           }
           this.$el.style.height = this.height + 'px'
           this._setProgressHeight()
@@ -128,7 +138,7 @@
         methods: {
           _setProgressHeight() {
             let radio = (this.now / this.target).toFixed(2)
-            let eHeight = this.height * radio
+            let eHeight = this.height * radio - 10
             setTimeout(() => {
               this.$refs.progress.style.height = eHeight + 'px'
             }, 20)

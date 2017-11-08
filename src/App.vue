@@ -27,8 +27,8 @@ p, ul {
 body,html {
   margin: 0;
   padding: 0;
-  width: 1920px;
-  height: 1080px;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   user-select: none;
 }
@@ -48,12 +48,12 @@ body,html {
 #app {
   width: 100%;
   height: 100%;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: '微软雅黑';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100%;
   background-position: center;
 }
 .logo-wrapper {
