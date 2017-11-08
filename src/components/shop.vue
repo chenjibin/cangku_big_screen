@@ -1,6 +1,6 @@
 <template>
   <div class="shop flex-box">
-    <fs-boom :visible="boomShow" :num="boomNum" @hide="hideBoom" :time="4000"></fs-boom>
+    <fs-boom :visible="boomShow" :number="boomNum" @hide="hideBoom" :time="4000"></fs-boom>
     <div class="logo-wrapper">
       <img src="../assets/sale_logo.png" />
     </div>
@@ -20,18 +20,34 @@
         <div class="list-block one">
           <p class="title">今日实时各店铺支付金额排行榜</p>
           <div class="line"></div>
-          <ul class="list">
-            <template v-for="item,index in shopData">
-              <li class="item flex-box" :class="{good: index <= 2}">
-                <p class="order">{{index + 1}}</p>
-                <p class="flex-one">{{item.name}}</p>
-                <p class="flex-one num">
-                  <vue-countup class="number" :start="0" :end="item.money"></vue-countup>
-                </p>
-              </li>
-              <div class="line"></div>
-            </template>
-          </ul>
+          <transition name="fade">
+            <ul class="list" v-show="shopShow">
+              <template v-for="item,index in shopData" v-if="index <= 9">
+                <li class="item flex-box" :class="{good: index <= 2}">
+                  <p class="order">{{index + 1}}</p>
+                  <p class="flex-one">{{item.name}}</p>
+                  <p class="flex-one num">
+                    <vue-countup class="number" :start="0" :end="item.money"></vue-countup>
+                  </p>
+                </li>
+                <div class="line"></div>
+              </template>
+            </ul>
+          </transition>
+          <transition name="fade">
+            <ul class="list" v-show="!shopShow">
+              <template v-for="item,index in shopData" v-if="index > 9 && index <= 19">
+                <li class="item flex-box" :class="{good: index <= 2}">
+                  <p class="order">{{index + 1}}</p>
+                  <p class="flex-one">{{item.name}}</p>
+                  <p class="flex-one num">
+                    <vue-countup class="number" :start="0" :end="item.money"></vue-countup>
+                  </p>
+                </li>
+                <div class="line"></div>
+              </template>
+            </ul>
+          </transition>
         </div>
       </div>
     </div>
@@ -51,17 +67,17 @@
       </div>
       <div class="main-block">
         <div class="table-line-block each-block">
-          <p class="title">完成发货速率(1小时)</p>
+          <p class="title">24小时销售额曲线图(1小时)</p>
           <div class="line"></div>
           <div class="line-table">
             <vue-echarts :options="polar" :auto-resize="true"></vue-echarts>
           </div>
         </div>
         <div class="piv-order-block each-block">
-          <p class="title">顾客发货地域分布(省份)</p>
+          <p class="title">实时当日省订单量百分比排行榜</p>
           <div class="line"></div>
           <div class="area-block">
-            <div class="each-area" v-for="item,index in provinceData">
+            <div class="each-area" v-for="item,index in provinceData" v-if="index <= 5">
               <div class="desc flex-box">
                 <span class="name">{{item.name}}</span>
                 <span class="num">{{item.percent + '%'}}</span>
@@ -87,88 +103,43 @@
     name: 'warehouse',
     data () {
       return {
+        boomNum: '0',
+        shopShow: true,
         showBomeArr: [10000, 50000, 100000, 150000],
         boomShow: false,
         cancanShow: true,
-        boomNum: 1000,
         canShow: true,
         nowMoney: 0,
         testMoney: 0,
-        shopData: [
-          {
-            name: '幸运叶子官方旗舰店',
-            money: 500000
-          },
-          {
-            name: '幸运叶子官方旗舰店',
-            money: 500000
-          },
-          {
-            name: '幸运叶子官方旗舰店',
-            money: 500000
-          },
-          {
-            name: '幸运叶子官方旗舰店',
-            money: 500000
-          },
-          {
-            name: '幸运叶子官方旗舰店',
-            money: 500000
-          },
-          {
-            name: '幸运叶子官方旗舰店',
-            money: 500000
-          },
-          {
-            name: '幸运叶子官方旗舰店',
-            money: 500000
-          },
-          {
-            name: '幸运叶子官方旗舰店',
-            money: 500000
-          },
-          {
-            name: '幸运叶子官方旗舰店',
-            money: 500000
-          },
-          {
-            name: '幸运叶子官方旗舰店',
-            money: 500000
-          }
-        ],
+        shopData: [],
         updateTime: '0000-00-00 00:00:00',
-        provinceData: [
+        provinceData: [],
+        showBigAni: [
           {
-            name: '江苏省',
-            percent: 10.14
+            flag: true,
+            val: 100000
           },
           {
-            name: '浙江省',
-            percent: 8.28
+            flag: true,
+            val: 200000
           },
           {
-            name: '广东省',
-            percent: 8.28
+            flag: true,
+            val: 300000
           },
           {
-            name: '北京市',
-            percent: 5.38
+            flag: true,
+            val: 400000
           },
           {
-            name: '山东省',
-            percent: 2.09
+            flag: true,
+            val: 800000
+          },
+          {
+            flag: true,
+            val: 900000
           }
         ],
-        saleRadioData: {
-          name: '1218108080',
-          value: ['2017-11-11 10:50:26', 20]
-        },
-        allSaleData: {
-          name: '1218108080',
-          value: ['2017-11-11 10:50:26', 20]
-        },
-//        sendRadio: [2, 7, 10, 18, 14, 18, 20, 30, 10, 18, 33, 24, 20, 19, 39],
-        sendRadio2: [10000000, 20000000, 30000000, 40000000, 80000000, 90000000, 100000000],
         polar: {
           tooltip: {
             trigger: 'axis'
@@ -315,7 +286,10 @@
           this.updateTime = res.results.updateTime
           this.nowMoney = res.results.nowMoney
           this.provinceData = res.results.provinceData
-          this.shopData = res.results.shopData
+
+          this.shopData = res.results.shopData.sort((x, y) => {
+            return y.money - x.money
+          })
 
           let newArr = []
           let newArr2 = []
@@ -336,7 +310,9 @@
       }, globalData.saleDuration)
     },
     mounted() {
-
+      setInterval(() => {
+        this.shopShow = !this.shopShow
+      }, 5000)
     },
     methods: {
       getAllShopData() {
@@ -344,17 +320,21 @@
           if (res.success) {
             this.updateTime = res.results.updateTime
             this.nowMoney = res.results.nowMoney
+            this.isShowBigAni(this.nowMoney)
             if (this.nowMoney > 10000 && this.canShow && this.cancanShow) {
               this.cancanShow = false
               this.boomShow = true
               this.canShow = false
-              setTimeout(() => {
-                this.boomShow = false
-                this.canShow = true
-              }, 4000)
+//              setTimeout(() => {
+//                this.boomShow = false
+//                this.canShow = true
+//              }, 4000)
             }
             this.provinceData = res.results.provinceData
-            this.shopData = res.results.shopData
+
+            this.shopData = res.results.shopData.sort((x, y) => {
+              return y.money - x.money
+            })
 
             let newArr = []
             let newArr2 = []
@@ -365,29 +345,34 @@
             this.polar.series[0].data = newArr
             this.polar.xAxis.data = newArr2
 
-            this.polar2.series[0].data = [...this.polar2.series[0].data, res.results.newSaleData]
+            let newSale = {}
+            newSale.name = res.results.newSaleData.name
+            newSale.value = [res.results.newSaleData.name, res.results.newSaleData.value]
+
+            this.polar2.series[0].data = [...this.polar2.series[0].data, newSale]
+
+            console.log(this.polar2.series[0].data)
           }
         }).catch((err) => {
           console.log(err)
-        })
+        })``
       },
       hideBoom() {
         this.boomShow = false
         this.canShow = true
       },
-      upDataTestLine() {
-        let obj = this.randomData()
-        this.polar2.series[0].data = [...this.polar2.series[0].data, obj]
-//        this.polar2.series[1].data = [...this.polar2.series[0].data, obj]
+      isShowBigAni(now) {
+        this.showBigAni.forEach((item, index) => {
+          let flag = now >= item.val && now <= this.showBigAni[index + 1].val && item.flag
+          if (flag) {
+            let textNum = this.toTrand(item.val)
+            this.boomNum = textNum
+            item.flag = false
+          }
+        })
       },
-      randomData() {
-        this.testMoney += Math.round(Math.random() * 100000)
-        this.nowMoney = this.testMoney
-        let nowTime = moment().format('YYYY-MM-DD hh:mm:ss')
-        return {
-          name: nowTime,
-          value: [nowTime, this.testMoney]
-        }
+      toTrand(num) {
+        return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
       }
     },
     components: {
@@ -401,6 +386,12 @@
 </script>
 
 <style  lang="less">
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity 1s
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+    opacity: 0
+  }
   .shop {
     padding-top: 127px;
     width: 100%;
@@ -558,7 +549,11 @@
             font-size: 20px;
           }
           .list {
-            margin-top: 20px;
+            position: absolute;
+            width: 392px;
+            z-index: 10;
+            left: 16px;
+            margin-top: 30px;
             color: #fff;
             .line {
               background-color: rgba(78, 126, 255, 0.5);
@@ -575,7 +570,7 @@
             .item {
               padding: 10px 0;
               align-items: center;
-              font-size: 16px;
+              font-size: 20px;
               &.good {
                 .order {
                   color: #ffd702;
@@ -750,7 +745,7 @@
           }
           .line {
             position: relative;
-            width: 158px;
+            width: 210px;
             height: 1px;
             background-color: rgba(78, 126, 255, 0.80);
             &::before,&::after {
@@ -781,10 +776,10 @@
         }
         .piv-order-block {
           .line {
-            width: 180px;
+            width: 245px;
           }
           .area-block {
-            margin-top: 30px;
+            margin-top: 12px;
             .each-area {
               padding: 10px 0 0 0;
             }
