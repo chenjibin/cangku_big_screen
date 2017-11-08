@@ -3,7 +3,7 @@
  */
 
 var globalData = {
-    api: 'http://wms.xingyunyezi.com/index.php/ScreenData/data',
+    api: '',
     duration: 5000,
     warehouseBigAni: [{
             flag: true,
@@ -22,7 +22,7 @@ var globalData = {
             val: 13000
         }
     ],
-    saleApi: 'http://self.gx.xingyunyezi.com/index.php/Screen/getData',
+    saleApi: '',
     saleBigAni: [{
             flag: true,
             val: 1386000
