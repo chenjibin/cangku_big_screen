@@ -137,8 +137,13 @@
         },
         methods: {
           _setProgressHeight() {
-            let radio = (this.now / this.target).toFixed(2)
-            let eHeight = this.height * radio - 10
+            let eHeight = 0
+            if (this.now === this.target) {
+              eHeight = this.height
+            } else {
+              let radio = (this.now / this.target).toFixed(2)
+              eHeight = this.height * radio - 10
+            }
             setTimeout(() => {
               this.$refs.progress.style.height = eHeight + 'px'
             }, 20)

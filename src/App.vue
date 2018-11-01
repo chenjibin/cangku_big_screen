@@ -1,5 +1,6 @@
 <template>
   <div id="app" style="">
+    <video width="1920" height="1080"  ref="videoNew" autoplay="autoplay" loop="loop"  src="http://tm.xyyzi.com:9099/oa/test/media/new-one.mp4">您的浏览器不支持播放该视频！</video>
     <div class="fs-main-content-router-wrapper">
       <transition
         name="fade"
@@ -12,7 +13,10 @@
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  mounted() {
+    this.$refs.videoNew.play()
+  }
 }
 </script>
 
@@ -35,9 +39,15 @@ body,html {
 .flex-box {
   display: flex;
 }
+.flex-align-center {
+  align-items: center;
+}
 .flex-center {
   justify-content: center;
   align-items: center;
+}
+.flex-just-space {
+  justify-content: space-between;
 }
 .flex-one {
   flex: 1;

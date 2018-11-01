@@ -1,8 +1,8 @@
 <template>
   <div class="main flex-box flex-center">
-    <div class="logo-wrapper">
-      <img src="../assets/tm_logo.png" />
-    </div>
+    <!--<div class="logo-wrapper">-->
+      <!--<img src="../assets/tm_logo.png" />-->
+    <!--</div>-->
     <div class="btn-wrapper flex-box">
       <div class="btn" @click="_toTargetWar('warehouse')">
         <img src="../assets/warehouse_btn.png" />
@@ -24,6 +24,10 @@ export default {
   methods: {
     _toTargetWar(name) {
       this.$router.push({name: name})
+    },
+    change(index, $event) {
+      this.arrForm[index] = $event
+      console.log(this.arrForm)
     }
   }
 }

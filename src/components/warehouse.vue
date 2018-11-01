@@ -1,9 +1,14 @@
 <template>
   <div class="warehouse flex-box">
-  <fs-boom :visible="boomShow" :number="boomNum" @show="showBoom" @hide="hideBoom" pre="出货量"></fs-boom>
-    <div class="logo-wrapper">
-      <img src="../assets/tm_logo.png" />
-    </div>
+  <fs-boom
+  :visible="boomShow"
+  :number="boomNum"
+  @show="showBoom"
+  bgVideoUrl="http://guider.intersport.net.cn/video/bg_video2.mp4"
+  @hide="hideBoom"></fs-boom>
+    <!--<div class="logo-wrapper">-->
+      <!--<img src="../assets/tm_logo.png" />-->
+    <!--</div>-->
     <div class="flex-one left-area">
       <div class="spec-block-one">
         <p class="time">数据更新时间:{{updateTime}}</p>
@@ -24,7 +29,7 @@
             <li v-for="item,index in sendOrder" class="item flex-box" :class="{good: index <= 2}">
               <p class="order">{{index + 1}}</p>
               <p class="flex-one">{{item.name}}</p>
-              <p class="flex-one">{{item.num}}</p>
+              <p class="flex-one num">{{item.num}}</p>
             </li>
           </ul>
         </div>
@@ -35,7 +40,7 @@
             <li v-for="item,index in findOrder" class="item flex-box" :class="{good: index <= 2}">
               <p class="order">{{index + 1}}</p>
               <p class="flex-one">{{item.name}}</p>
-              <p class="flex-one">{{item.num}}</p>
+              <p class="flex-one num">{{item.num}}</p>
             </li>
           </ul>
         </div>
@@ -103,9 +108,11 @@ export default {
   name: 'warehouse',
   data () {
     return {
-      boomNum: '',
+      timer: null,
+      boomNum: {},
       boomShow: false,
-      showBigAni: globalData.warehouseBigAni,
+      showBigAni: [],
+      serverBigArr: [],
       updateTime: '0000-00-00 00:00:00',
       saleData: {
         start: 0,
@@ -184,19 +191,20 @@ export default {
   },
   created() {
     this.getWarehouseData()
-    setInterval(() => {
+    this.timer = setInterval(() => {
       this.getWarehouseData()
     }, globalData.duration)
   },
- mounted() {
-
- },
+  destroyed() {
+    clearInterval(this.timer)
+  },
   methods: {
     getWarehouseData() {
       jsonp(globalData.api, {}, {param: 'jsonpCallback', prefix: 'jp'}).then((res) => {
         if (res.success) {
           this.updateTime = res.results.updateTime
           this.saleData.end = res.results.saledData
+          this.showBigAni = res.results.warehouseBigAni || []
           this.isShowBigAni(this.saleData.end)
           this.provinceData = res.results.provinceData
           this.warehouseData = res.results.warehouseData
@@ -220,12 +228,11 @@ export default {
       this.boomShow = false
     },
     isShowBigAni(now) {
+      if (this.showBigAni.length === 0) return
         this.showBigAni.forEach((item, index) => {
-          let flag = now >= item.val && (this.showBigAni[index + 1] ? now <= this.showBigAni[index + 1].val : true) && item.flag
+          let flag = now >= item.num.val && item.flag
           if (flag) {
-            let textNum = this.toTrand(item.val)
-            this.boomNum = textNum
-            item.flag = false
+            this.boomNum = item.num
           }
         })
       },
@@ -249,7 +256,7 @@ export default {
   padding-top: 127px;
   width: 100%;
   height: 100%;
-  background-image: url(../assets/bg-img.jpg);
+  /*background-image: url(../assets/bg-img.jpg);*/
   .left-area {
     .spec-block-one {
       margin-bottom: 65px;
@@ -407,6 +414,9 @@ export default {
             align-items: center;
             border-bottom: 1px solid #ff4e00;
             font-size: 16px;
+            .num {
+              text-align: right;
+            }
             &.good {
               border-bottom: 1px solid #ffd702;
               .order {
@@ -455,7 +465,8 @@ export default {
       .number {
         color: #ff4e00;
         font-size: 90px;
-        font-family: initial;
+        font-family: 'ITV Reem';
+        // font-family: initial;
         font-weight: 700;
         letter-spacing: 4px;
       }
