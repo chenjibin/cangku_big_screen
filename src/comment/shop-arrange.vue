@@ -16,7 +16,7 @@
                 <div class="right-item flex-one">
                   <p class="shop-name">{{item.name}}</p>
                   <div class="num">
-                    <vue-countup class="number" :start="0" :end="item.money"></vue-countup>
+                    <vue-countup class="number" :start="0" :end="+item.money"></vue-countup>
                   </div>
                 </div>
               </div>
@@ -45,7 +45,7 @@
                   <p class="shop-name">{{item.name}}</p>
                 </div>
                 <div class="">
-                  <vue-countup class="number small" :start="0" :end="item.money"></vue-countup>
+                  <vue-countup class="number small" :start="0" :end="+item.money"></vue-countup>
                 </div>
               </div>
             </li>
@@ -110,7 +110,6 @@
 
       }
     }
-
   }
 </style>
 <script>

@@ -1,4 +1,6 @@
 build/*.js
 config/*.js
+static/*
+src/utils/*
 src/comment/*
 static/extrajs/*.js

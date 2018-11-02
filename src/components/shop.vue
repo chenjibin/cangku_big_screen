@@ -4,7 +4,7 @@
       <digit-roll :roll-digits="digits" :dur="during"></digit-roll>
     </div>
     <div class="fs-count-time">
-      <p class="time">{{updateTime}}</p>
+      <p class="time" style="font-size: 24px">{{updateTime}}</p>
     </div>
     <!--<fs-boom-->
     <!--:visible="boomShow"-->
@@ -22,16 +22,13 @@
       </div>
     </div>
     <div class="center-area">
-      <!--<div class="number-block">-->
-      <!--<vue-countup class="number" :start="0" :end="nowMoney"></vue-countup>-->
-      <!--</div>-->
       <div class="all-sale-block">
         <vue-echarts :options="polar2" :auto-resize="true" class="line-pic"
                      style="width: 920px;height: 600px"></vue-echarts>
       </div>
     </div>
     <div class="right-area">
-      <div class="fs-block-component">
+      <div class="fs-block-component" style="margin-bottom: 40px">
         <p class="title">销售额曲线图(1小时)</p>
         <div class="" style="height: 260px;margin-top: 20px;">
           <vue-echarts :options="polar" :auto-resize="true"></vue-echarts>
@@ -40,96 +37,8 @@
       <div class="fs-block-component">
         <p class="title">品牌销售排行榜</p>
         <div class="brand-arrange">
-          <div class="" style="height: 300px;display: flex;justify-content: center;align-items: center;">
-            <p style="font-size: 30px;color: rgba(255,255,255,0.6)">尽请期待</p>
-          </div>
-          <!--<ul class="list" style="list-style: none">-->
-            <!--<li class="brand-list-item spec">-->
-              <!--<div class="flex-box flex-align-center flex-just-space">-->
-                <!--<div class="left-item flex-box flex-align-center">-->
-                  <!--<img src="http://tm.xyyzi.com:9099/oa/test/image/arrange_1.png" class="icon"/>-->
-                  <!--<div class="img-wrap">-->
-                    <!--<img src="http://tm.xyyzi.com:9099/oa/upload/head/1526527828992.png"/>-->
-                  <!--</div>-->
-                  <!--<p class="brand-name">阿迪达斯</p>-->
-                <!--</div>-->
-                <!--<div class="right-item">-->
-                  <!--<div class="num">-->
-                    <!--<vue-countup class="number" :start="0" :end="125487456"></vue-countup>-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</li>-->
-            <!--<li class="brand-list-item spec">-->
-              <!--<div class="flex-box flex-align-center flex-just-space">-->
-                <!--<div class="left-item flex-box flex-align-center">-->
-                  <!--<img src="http://tm.xyyzi.com:9099/oa/test/image/arrange_2.png" class="icon"/>-->
-                  <!--<div class="img-wrap">-->
-                    <!--<img src="http://tm.xyyzi.com:9099/oa/upload/head/1526527828992.png"/>-->
-                  <!--</div>-->
-                  <!--<p class="brand-name">阿迪达斯</p>-->
-                <!--</div>-->
-                <!--<div class="right-item">-->
-                  <!--<div class="num">-->
-                    <!--<vue-countup class="number" :start="0" :end="125487456"></vue-countup>-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</li>-->
-            <!--<li class="brand-list-item spec">-->
-              <!--<div class="flex-box flex-align-center flex-just-space">-->
-                <!--<div class="left-item flex-box flex-align-center">-->
-                  <!--<img src="http://tm.xyyzi.com:9099/oa/test/image/arrange_3.png" class="icon"/>-->
-                  <!--<div class="img-wrap">-->
-                    <!--<img src="http://tm.xyyzi.com:9099/oa/upload/head/1526527828992.png"/>-->
-                  <!--</div>-->
-                  <!--<p class="brand-name">阿迪达斯</p>-->
-                <!--</div>-->
-                <!--<div class="right-item">-->
-                  <!--<div class="num">-->
-                    <!--<vue-countup class="number" :start="0" :end="125487456"></vue-countup>-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</li>-->
-            <!--<li class="brand-list-item">-->
-              <!--<div class="flex-box flex-just-space flex-align-center">-->
-                <!--<div class="left-item flex-box flex-align-center">-->
-                  <!--<span class="tag">4.</span>-->
-                  <!--<p class="brand-name">阿迪达斯</p>-->
-                <!--</div>-->
-                <!--<div class="right-item">-->
-                  <!--<div class="num">-->
-                    <!--<vue-countup class="number" :start="0" :end="125487456"></vue-countup>-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</li>-->
-            <!--<li class="brand-list-item">-->
-              <!--<div class="flex-box flex-just-space flex-align-center">-->
-                <!--<div class="left-item flex-box flex-align-center">-->
-                  <!--<span class="tag">5.</span>-->
-                  <!--<p class="brand-name">阿迪达斯</p>-->
-                <!--</div>-->
-                <!--<div class="right-item">-->
-                  <!--<div class="num">-->
-                    <!--<vue-countup class="number" :start="0" :end="125487456"></vue-countup>-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</li>-->
-          <!--</ul>-->
+          <brand-arrange :data="brandData"></brand-arrange>
         </div>
-
-        <!--<div class="area-block">-->
-        <!--<div class="each-area" v-for="item,index in provinceData" v-if="index <= 5">-->
-        <!--<div class="desc flex-box">-->
-        <!--<span class="name">{{item.name}}</span>-->
-        <!--<span class="num">{{item.percent + '%'}}</span>-->
-        <!--</div>-->
-        <!--<fs-lineprogress :percent="index === 0 ? 100 : item.percent/provinceData[0].percent*100"></fs-lineprogress>-->
-        <!--</div>-->
-        <!--</div>-->
       </div>
     </div>
   </div>
@@ -138,6 +47,7 @@
 <script>
   import DigitRoll from '@/comment/new-digit-roll'
   import ShopArrange from '@/comment/shop-arrange'
+  import BrandArrange from '@/comment/brand-arrange'
   import VueEcharts from 'vue-echarts'
   import VueCountup from '@/comment/vue-countup'
   import FsFill from '@/comment/fs-fill'
@@ -159,6 +69,7 @@
         canShow: true,
         nowMoney: 0,
         shopData: [],
+        brandData: [],
         updateTime: '0000-00-00 00:00:00',
         provinceData: [],
         showBigAni: [],
@@ -181,7 +92,7 @@
             boundaryGap: false,
             axisLine: {
               lineStyle: {
-                color: '#FFBF00'
+                color: '#4E7EFF'
               }
             },
             splitLine: {
@@ -246,7 +157,7 @@
               show: true,
               lineStyle: {
                 color: '#FFBF00',
-                opacity: 0.8
+                opacity: 0.6
               }
             },
             nameTextStyle: {
@@ -317,7 +228,7 @@
           this.isShowBigAni(this.nowMoney)
 
           this.provinceData = res.results.provinceData
-
+          this.brandData = res.results.brandData
           this.shopData = res.results.shopData.sort((x, y) => {
             return y.money - x.money
           })
@@ -372,7 +283,7 @@
             this.showBigAni = res.results.saleBigAni || []
             this.isShowBigAni(this.nowMoney)
             this.provinceData = res.results.provinceData
-
+            this.brandData = res.results.brandData
             this.shopData = res.results.shopData.sort((x, y) => {
               return y.money - x.money
             })
@@ -418,12 +329,13 @@
       VueCountup,
       FsFill,
       FsLineprogress,
-      ShopArrange
+      ShopArrange,
+      BrandArrange
     }
   }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
   .fade-enter-active, .fade-leave-active {
     transition: opacity 1s
   }
@@ -439,103 +351,6 @@
     z-index: 100;
     color: #fff;
   }
-
-  .brand-list-item {
-    padding: 4px 0;
-    border-bottom: 1px solid #7411AE;
-    .tag {
-      margin-right: 4px;
-      font-size: 20px;
-      color: #fff;
-    }
-    &.spec {
-      .brand-name {
-        font-size: 24px;
-      }
-      .number {
-        font-size: 24px;
-      }
-    }
-    .brand-name {
-      color: #fff;
-      font-size: 20px;
-    }
-    .number {
-      font-size: 20px;
-      color: #FFBF00;
-    }
-    .icon {
-      margin-right: 8px;
-    }
-    .img-wrap {
-      margin-right: 12px;
-      width: 50px;
-      height: 50px;
-      padding: 2px;
-      background-color: #fff;
-      border-radius: 50%;
-      overflow: hidden;
-      img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-      }
-    }
-  }
-
-  .fs-swiper {
-    height: 570px;
-    overflow: hidden;
-    .list-item {
-      padding: 20px 0;
-      border-bottom: 1px solid #7411AE;
-      .shop-name {
-        font-size: 24px;
-        color: #fff;
-      }
-      .tag {
-        margin-right: 2px;
-        font-size: 24px;
-        color: #fff;
-      }
-      .number {
-        font-size: 45px;
-        color: #FFBF00;
-        font-weight: 700;
-        &.small {
-          font-size: 24px;
-        }
-      }
-      .left-item {
-        position: relative;
-        margin-right: 20px;
-        font-size: 0;
-        .icon {
-          position: absolute;
-          left: -12px;
-          top: -12px;
-        }
-      }
-      .img-wrap {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        background-color: #fff;
-        padding: 2px;
-        img {
-          width: 100%;
-          height: 100%;
-          border-radius: 50%;
-        }
-      }
-      &.spec {
-        padding: 30px 0 20px 20px;
-
-      }
-    }
-
-  }
-
   .fs-block-component {
     padding: 0 50px;
     .title {
@@ -546,7 +361,6 @@
       border-bottom: 2px solid #FFBF00;
     }
   }
-
   .shop {
     position: relative;
     width: 100%;
@@ -576,5 +390,4 @@
       padding-top: 275px;
     }
   }
-
 </style>

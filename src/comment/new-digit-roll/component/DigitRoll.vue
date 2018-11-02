@@ -4,7 +4,7 @@
       ref="list"
       class="d-roll-list"
     >
-      <li style="margin: 0 12px;font-size: 0;">
+      <li style="margin: 0 12px;font-size: 0;" v-if="showPre">
         <img src="http://tm.xyyzi.com:9099/oa/test/image/money-icon.png" style="height: 160px;"/>
       </li>
       <template v-for="(item, i) of digitOffsetArr">
@@ -19,7 +19,7 @@
             :style="getliStyle(item, i)"
           ></div>
         </li>
-        <li v-if="i === 2 || i === 5" class="dot">
+        <li v-if="(digitOffsetArr.length - i - 1) % 3 === 0 && digitOffsetArr.length - i - 1 !== 0" class="dot">
           <img src="http://tm.xyyzi.com:9099/oa/test/image/dot.png" style="height: 160px;"/>
         </li>
       </template>
@@ -45,7 +45,10 @@ export default {
       type: [String, Number],
       default: 1000
     },
-
+    showPre: {
+      type: Boolean,
+      default: true
+    },
     dur: {
       type: Number,
       default: 1000
