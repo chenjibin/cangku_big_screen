@@ -182,6 +182,7 @@
                 const numString = String(value)
                 const numLength = numString.length
                 let returnStrin = ''
+                if (value === 0) return '0'
                 if (numLength >= 9) {
                   returnStrin = (value / 1000000000) + '亿'
                 } else {
