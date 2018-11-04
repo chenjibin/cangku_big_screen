@@ -54,11 +54,13 @@
   }
 
   body, html {
+    position: relative;
+    font-size: 0;
     margin: 0;
     padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
     user-select: none;
   }
 

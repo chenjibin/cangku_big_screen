@@ -6,9 +6,9 @@
           <div class="flex-box flex-align-center flex-just-space">
             <div class="left-item flex-box flex-align-center">
               <img :src="'http://tm.xyyzi.com:9099/oa/test/image/arrange_' + (index + 1) + '.png'" class="icon"/>
-              <div class="img-wrap">
-                <img src="http://tm.xyyzi.com:9099/oa/upload/head/1526527828992.png"/>
-              </div>
+              <!--<div class="img-wrap">-->
+                <!--<img src="http://tm.xyyzi.com:9099/oa/upload/head/1526527828992.png"/>-->
+              <!--</div>-->
               <p class="brand-name">{{item.name}}</p>
             </div>
             <div class="right-item">
@@ -18,19 +18,19 @@
             </div>
           </div>
         </li>
-        <li class="brand-list-item" v-else>
-          <div class="flex-box flex-just-space flex-align-center">
-            <div class="left-item flex-box flex-align-center">
-              <span class="tag">{{index + 1}}.</span>
-              <p class="brand-name">{{item.name}}</p>
-            </div>
-            <div class="right-item">
-              <div class="num">
-                <vue-countup class="number" :start="0" :end="+item.amount"></vue-countup>
-              </div>
-            </div>
-          </div>
-        </li>
+        <!--<li class="brand-list-item" v-else>-->
+          <!--<div class="flex-box flex-just-space flex-align-center">-->
+            <!--<div class="left-item flex-box flex-align-center">-->
+              <!--<span class="tag">{{index + 1}}.</span>-->
+              <!--<p class="brand-name">{{item.name}}</p>-->
+            <!--</div>-->
+            <!--<div class="right-item">-->
+              <!--<div class="num">-->
+                <!--<vue-countup class="number" :start="0" :end="+item.amount"></vue-countup>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</li>-->
       </template>
     </ul>
   </div>
@@ -52,7 +52,7 @@
 
 <style lang="less">
   .brand-list-item {
-    padding: 4px 0;
+    padding: 20px 0;
     border-bottom: 1px solid #7411AE;
     .tag {
       margin-right: 4px;

@@ -33,12 +33,17 @@
       </div>
       <div class="fs-block-component">
         <p class="title">完成发货速率(1小时)</p>
-          <div style="height: 260px; margin-top: 20px;margin-bottom: 30px;">
+          <div style="height: 260px; margin-top: 20px;margin-bottom: 30px;overflow: hidden">
             <vue-echarts :options="polar" :auto-resize="true"></vue-echarts>
           </div>
       </div>
     </div>
     <div class="center-area flex-one">
+      <div class="total-title-block">
+        <div class="line-top line"></div>
+        <div class="line-bottom line"></div>
+        <p class="title">今日总出货单量</p>
+      </div>
     </div>
     <div class="right-area">
       <div class="fs-block-component" style="margin-bottom: 30px">
@@ -125,11 +130,12 @@
             axisLine: {
               show: false,
               lineStyle: {
-                color: '#4e7eff'
+                color: '#4E7EFF'
               }
             },
             splitLine: {
               lineStyle: {
+                type: 'value',
                 color: 'rgba(78, 126, 255, 0.5)'
               }
             }
@@ -229,6 +235,57 @@
 </script>
 
 <style lang="less" scoped>
+  .total-title-block {
+    position: relative;
+    display: inline-block;
+    width: 186px;
+    height: 70px;
+    line-height: 70px;
+    font-size: 0;
+    text-align: center;
+    .title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #FFBF00;
+      display: inline-block;
+      letter-spacing: 2px;
+    }
+    .line::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: 0;
+      width: 5px;
+      height: 5px;
+      background-color: #FF0037;
+    }
+    .line::after {
+      content: '';
+      position: absolute;
+      top: -2px;
+      right: 0;
+      width: 5px;
+      height: 5px;
+      background-color: #FF0037;
+    }
+    .line-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: #FF0037;
+    }
+    .line-bottom {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 1px;
+      background-color: #FF0037;
+
+    }
+  }
   .warehouse-speed-block {
     .each-warehouse {
       margin-bottom: 30px;
@@ -258,7 +315,7 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    top: 180px;
+    top: 164px;
     z-index: 100;
   }
   .fs-count-time {
@@ -282,19 +339,22 @@
   }
   .warehouse {
     position: relative;
-    width: 100%;
-    height: 100%;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
     .left-area {
       flex: 0 0 500px;
       width: 500px;
-      padding-top: 275px;
+      padding-top: 260px;
     }
     .center-area {
+      padding-top: 346px;
+      text-align: center;
     }
     .right-area {
       flex: 0 0 500px;
       width: 500px;
-      padding-top: 275px;
+      padding-top: 260px;
     }
   }
 

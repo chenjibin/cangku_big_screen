@@ -30,7 +30,7 @@
     <div class="right-area">
       <div class="fs-block-component" style="margin-bottom: 40px">
         <p class="title">销售额曲线图(1小时)</p>
-        <div class="" style="height: 260px;margin-top: 20px;">
+        <div class="" style="height: 260px;margin-top: 20px;overflow: hidden">
           <vue-echarts :options="polar" :auto-resize="true"></vue-echarts>
         </div>
       </div>
@@ -117,6 +117,7 @@
             },
             splitLine: {
               lineStyle: {
+                type: 'value',
                 color: 'rgba(78, 126, 255, 0.5)'
               }
             }
@@ -126,6 +127,7 @@
               name: '销售额',
               type: 'line',
               stack: '总量',
+              smooth: true,
               lineStyle: {
                 normal: {
                   color: '#ffd702'
@@ -157,6 +159,7 @@
               show: true,
               lineStyle: {
                 color: '#FFBF00',
+                type: 'value',
                 opacity: 0.6
               }
             },
@@ -187,8 +190,9 @@
                 return returnStrin
               }
             },
+
             axisLine: {
-              show: false,
+              show: true,
               lineStyle: {
                 color: '#FFBF00'
               }
@@ -205,6 +209,7 @@
               name: '当前销售总金额',
               type: 'line',
               stack: '总量',
+              smooth: true,
               showSymbol: false,
               lineStyle: {
                 normal: {
@@ -228,7 +233,9 @@
           this.isShowBigAni(this.nowMoney)
 
           this.provinceData = res.results.provinceData
-          this.brandData = res.results.brandData
+          this.brandData = res.results.brandData.sort((x, y) => {
+            return y.amount - x.amount
+          })
           this.shopData = res.results.shopData.sort((x, y) => {
             return y.money - x.money
           })
@@ -283,7 +290,9 @@
             this.showBigAni = res.results.saleBigAni || []
             this.isShowBigAni(this.nowMoney)
             this.provinceData = res.results.provinceData
-            this.brandData = res.results.brandData
+            this.brandData = res.results.brandData.sort((x, y) => {
+              return y.amount - x.amount
+            })
             this.shopData = res.results.shopData.sort((x, y) => {
               return y.money - x.money
             })
@@ -363,8 +372,9 @@
   }
   .shop {
     position: relative;
-    width: 100%;
-    height: 100%;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
     .fs-digit-roll {
       position: absolute;
       left: 50%;
