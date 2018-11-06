@@ -47,6 +47,10 @@
   * {
     box-sizing: border-box;
   }
+  @font-face{
+    font-family: led;
+    src: url(./assets/digit.ttf) format('ttf');
+  }
 
   p, ul {
     margin: 0;

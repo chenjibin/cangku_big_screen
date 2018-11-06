@@ -6,7 +6,7 @@
           <div class="left-item flex-box flex-align-center">
             <img :src="'http://tm.xyyzi.com:9099/oa/test/image/arrange_' + (index + 1) + '.png'" class="icon"/>
             <div class="img-wrap">
-              <img src="http://tm.xyyzi.com:9099/oa/upload/head/1526527828992.png"/>
+              <img :src="'http://tm.xyyzi.com:9099/oa/test/image/jiangpai_' + (index + 1) + '.jpg'"/>
             </div>
             <p class="shop-name">{{item.name}}</p>
           </div>
@@ -89,7 +89,6 @@
         height: 40px;
         border-radius: 50%;
         background-color: #fff;
-        padding: 2px;
         img {
           width: 100%;
           height: 100%;

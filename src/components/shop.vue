@@ -6,13 +6,7 @@
     <div class="fs-count-time">
       <p class="time" style="font-size: 24px">{{updateTime}}</p>
     </div>
-    <!--<fs-boom-->
-    <!--:visible="boomShow"-->
-    <!--:number="boomNum"-->
-    <!--@show="showBoom"-->
-    <!--@hide="hideBoom"-->
-    <!--bgVideoUrl="http://guider.intersport.net.cn/video/bg_video.mp4"-->
-    <!--pre="¥"></fs-boom>-->
+    <show-bgvideo :visible.sync="boomShow" :bgVideoPreUrl="bgUrl" :numArr="showBomeArr" :nowNum="nowMoney"></show-bgvideo>
     <div class="left-area">
       <div class="fs-block-component">
         <p class="title">店铺销售排行榜</p>
@@ -50,9 +44,8 @@
   import BrandArrange from '@/comment/brand-arrange'
   import VueEcharts from 'vue-echarts'
   import VueCountup from '@/comment/vue-countup'
-  import FsFill from '@/comment/fs-fill'
-  import FsLineprogress from '@/comment/fs-lineprogress'
   import jsonp from '@/utils/jsonp'
+  import ShowBgvideo from '@/comment/show-bgvideo'
 
   export default {
     name: 'warehouse',
@@ -63,7 +56,7 @@
         during: 2000,
         boomNum: {},
         shopShow: true,
-        showBomeArr: [10000, 50000, 100000, 150000],
+        showBomeArr: [300000000, 200000000, 190000000, 100000000, 50000000, 8000000],
         boomShow: false,
         cancanShow: true,
         canShow: true,
@@ -71,6 +64,7 @@
         shopData: [],
         brandData: [],
         updateTime: '0000-00-00 00:00:00',
+        bgUrl: 'http://tm.xyyzi.com:9099/oa/test/media/',
         provinceData: [],
         showBigAni: [],
         timer: null,
@@ -106,6 +100,20 @@
           },
           yAxis: {
             type: 'value',
+            axisLabel: {
+              formatter(value) {
+                const numString = String(value)
+                const numLength = numString.length
+                let returnStrin = ''
+                if (value === 0) return '0'
+                if (numLength >= 9) {
+                  returnStrin = (value / 1000000000) + '亿'
+                } else {
+                  returnStrin = (value / 10000) + '万'
+                }
+                return returnStrin
+              }
+            },
             nameTextStyle: {
               color: 'rgb(255,255,255)'
             },
@@ -178,7 +186,7 @@
               textStyle: {
                 color: '#fff'
               },
-              formatter(value, index) {
+              formatter(value) {
                 const numString = String(value)
                 const numLength = numString.length
                 let returnStrin = ''
@@ -191,7 +199,6 @@
                 return returnStrin
               }
             },
-
             axisLine: {
               show: true,
               lineStyle: {
@@ -337,10 +344,9 @@
       DigitRoll,
       VueEcharts,
       VueCountup,
-      FsFill,
-      FsLineprogress,
       ShopArrange,
-      BrandArrange
+      BrandArrange,
+      ShowBgvideo
     }
   }
 </script>
@@ -360,6 +366,9 @@
     right: 50px;
     z-index: 100;
     color: #fff;
+    font-family: 'led';
+    .time {
+    }
   }
   .fs-block-component {
     padding: 0 50px;
